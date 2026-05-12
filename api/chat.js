@@ -9,18 +9,18 @@ module.exports = async function handler(req, res) {
   const { messages } = req.body;
   if (!messages) return res.status(400).json({ error: "messages field is required" });
 
-  const apiKey = process.env.DEEPSEEK_API_KEY;
-  if (!apiKey) return res.status(500).json({ error: "DEEPSEEK_API_KEY env variable not set in Vercel" });
+  const apiKey = process.env.GROQ_API_KEY;
+  if (!apiKey) return res.status(500).json({ error: "GROQ_API_KEY env variable not set in Vercel" });
 
   try {
-    const response = await fetch("https://api.deepseek.com/v1/chat/completions", {
+    const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${apiKey}`,
       },
       body: JSON.stringify({
-        model: "deepseek-chat",
+        model: "llama-3.3-70b-versatile",
         max_tokens: 1500,
         messages,
       }),
