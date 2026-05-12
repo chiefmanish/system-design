@@ -1,0 +1,6 @@
+{
+  "name": "system-design-daily",
+  "version": "1.0.0",
+  "description": "Daily system design learning app with AI-powered lessons and viva",
+  "engines": { "node": ">=18" }
+}
