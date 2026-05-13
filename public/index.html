@@ -335,22 +335,28 @@ async function startLesson() {
 
   try {
     const data = await callAI(
-      `You are an expert system design teacher. Explain in plain English with real examples from big tech companies.
-
-Teach me: "${t[0]}" (level: ${t[1]})
+      `Teach me: "${t[0]}" (level: ${t[1]})
 
 Return ONLY this JSON (no markdown, no backticks, no preamble, no trailing text):
 {
-  "tldr": "one punchy sentence summary",
+  "tldr": "one punchy sentence — lead with the core trade-off or the problem this solves",
   "sections": [
-    { "heading": "title", "content": "2-3 sentence plain English explanation", "example": "real company or analogy example" }
+    {
+      "heading": "short title",
+      "content": "2-3 sentences. Start with a real-world analogy, then the technical reality. Include a concrete number or scale reference.",
+      "example": "specific company + what they actually use this for"
+    }
   ],
-  "company_example": { "company": "company name", "what": "what they built", "how": "2 sentences on how this concept applies" },
-  "key_insight": "single most important takeaway",
-  "viva_question": "a question testing ONLY concepts taught in the sections above"
+  "company_example": {
+    "company": "company name",
+    "what": "what specific system they built",
+    "how": "2 sentences: the problem they had, and exactly how this concept solved it"
+  },
+  "key_insight": "the one thing a senior engineer knows that a junior misses — include a 'use when / avoid when' trade-off",
+  "viva_question": "an open-ended interview-style question that requires applied thinking, not recitation — e.g. 'You're designing X and notice Y. How do you approach Z?'"
 }
 
-Rules: 3 sections only. Keep each field short. No extra keys. Valid JSON only.`
+Rules: exactly 3 sections. No extra keys. Valid JSON only.`
     );
     state.lesson = data;
     state.question = data.viva_question || "Explain this concept and give a real-world example.";
@@ -428,7 +434,7 @@ async function submitAnswer() {
 
   try {
     const data = await callAI(
-      `You are evaluating a system design student. Be encouraging but accurate.
+      `You are evaluating a system design student. Be a fair but direct FAANG-style interviewer.
 
 Topic taught: "${t[0]}"
 Lesson TL;DR: "${state.lesson?.tldr || ''}"
@@ -436,17 +442,17 @@ Key insight from lesson: "${state.lesson?.key_insight || ''}"
 Question asked: "${state.question}"
 Student answer: "${ans}"
 
-Evaluate ONLY based on concepts covered in this lesson — do not penalise for not knowing unrelated topics.
+Evaluate ONLY based on concepts covered in this specific lesson. Do NOT penalise for unrelated topics.
 
 Return ONLY this JSON (no markdown, no backticks):
 {
   "passed": true or false,
   "score": "Excellent" or "Great" or "Good" or "Partially Correct" or "Needs Work",
-  "feedback": "2-3 sentences of specific encouraging feedback referencing what they got right or wrong from this lesson",
-  "correct_answer": "ideal 2-sentence answer based only on this lesson's content — ONLY include if passed is false"
+  "feedback": "2-3 sentences: be specific. Name what they got right and exactly where their understanding broke down. If they passed, add one senior-engineer insight they can build on.",
+  "correct_answer": "2 sentences: the mental model they were missing, framed as 'The key insight is...' — ONLY include if passed is false"
 }
 
-Pass if they show core understanding of this specific topic, even if imperfect.`
+Pass threshold: student demonstrates they understand the WHY behind the concept, not just the definition. Imperfect wording is fine — look for the core mental model.`
     );
 
     if (data.passed) {
@@ -520,8 +526,10 @@ async function fetchDiagram(topicName) {
 Rules:
 - Use ONLY "graph TD" syntax
 - Node IDs must be single letters or short words: A, B, C, DB, LB, CDN
-- Node labels in square brackets only, no quotes, no parentheses, no special chars
-- Example: graph TD\n  A[Client] --> B[Load Balancer]\n  B --> C[Server 1]\n  B --> D[Server 2]
+- Node labels in square brackets only: A[Client], B[Load Balancer]
+- Show the happy-path data flow only — 4 to 6 nodes max
+- Label edges with the protocol or action where it adds clarity: A -->|HTTPS| B
+- No quotes, no parentheses, no special characters in node labels
 
 Return ONLY the raw Mermaid code. No explanation, no backticks, no markdown.`
         }]
