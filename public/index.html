@@ -339,26 +339,24 @@ async function startLesson() {
 
 Teach me: "${t[0]}" (level: ${t[1]})
 
-Return ONLY this JSON (no markdown, no backticks, no extra text):
+Return ONLY this JSON (no markdown, no backticks, no preamble, no trailing text):
 {
-  "tldr": "one punchy sentence",
+  "tldr": "one punchy sentence summary",
   "sections": [
     { "heading": "title", "content": "2-3 sentence plain English explanation", "example": "real company or analogy example" }
   ],
-  "company_example": { "company": "name", "what": "what they built", "how": "2-sentence application" },
+  "company_example": { "company": "company name", "what": "what they built", "how": "2 sentences on how this concept applies" },
   "key_insight": "single most important takeaway",
-  "diagram": "a Mermaid.js diagram using ONLY graph TD syntax. Rules: no quotes inside node labels, no parentheses in labels, no special characters. Use only alphanumeric node IDs like A, B, C. Example: graph TD\n  A[Client] --> B[Load Balancer]\n  B --> C[Server 1]\n  B --> D[Server 2]",
-  "viva_question": "a question that ONLY tests concepts explicitly taught in the sections above — do NOT reference any other system design topics not covered in this lesson"
+  "viva_question": "a question testing ONLY concepts taught in the sections above"
 }
 
-Include 3-4 sections. Use Netflix, Uber, Amazon, Google, WhatsApp, Discord as examples.`
+Rules: 3 sections only. Keep each field short. No extra keys. Valid JSON only.`
     );
     state.lesson = data;
     state.question = data.viva_question || "Explain this concept and give a real-world example.";
     document.getElementById("lesson-content").innerHTML = renderLessonHTML(data);
-    if (data.diagram) {
-      setTimeout(() => renderDiagram(data.diagram), 100);
-    }
+    // Fetch diagram separately so it never breaks lesson parsing
+    fetchDiagram(t[0]);
   } catch(e) {
     document.getElementById("lesson-content").innerHTML = errorHTML(e.message, "startLesson()");
   }
@@ -506,26 +504,42 @@ function esc(s) {
   return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
 }
 
-// Diagram renderer with full error handling
-async function renderDiagram(diagramCode) {
+// Fetch diagram as a SEPARATE call so it never breaks lesson JSON
+async function fetchDiagram(topicName) {
   const container = document.getElementById("diagram-container");
   if (!container) return;
   try {
-    mermaid.initialize({
-      startOnLoad: false,
-      theme: "default",
-      securityLevel: "loose",
-      flowchart: { useMaxWidth: true, htmlLabels: false },
+    const resp = await fetch("/api/chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        messages: [{
+          role: "user",
+          content: `Draw a Mermaid.js architecture diagram for: "${topicName}"
+
+Rules:
+- Use ONLY "graph TD" syntax
+- Node IDs must be single letters or short words: A, B, C, DB, LB, CDN
+- Node labels in square brackets only, no quotes, no parentheses, no special chars
+- Example: graph TD\n  A[Client] --> B[Load Balancer]\n  B --> C[Server 1]\n  B --> D[Server 2]
+
+Return ONLY the raw Mermaid code. No explanation, no backticks, no markdown.`
+        }]
+      })
     });
-    // Sanitize: remove quotes and special chars from labels
-    const safe = diagramCode
-      .replace(/"/g, "'")
-      .replace(/[<>{}|]/g, "")
-      .trim();
-    const { svg } = await mermaid.render("diagram-svg", safe);
+    const data = await resp.json();
+    let raw = data.choices?.[0]?.message?.content || "";
+    // Strip any backtick fences if model added them
+    raw = raw.replace(/\`\`\`(?:mermaid)?/gi, "").replace(/\`\`\`/g, "").trim();
+    if (!raw.startsWith("graph")) {
+      container.innerHTML = `<div style="text-align:center;padding:16px;color:#aaa;font-size:13px">Diagram unavailable</div>`;
+      return;
+    }
+    mermaid.initialize({ startOnLoad: false, theme: "default", securityLevel: "loose" });
+    const { svg } = await mermaid.render("mermaid-diagram", raw);
     container.innerHTML = svg;
   } catch(e) {
-    container.innerHTML = `<div style="text-align:center;padding:16px;color:#aaa;font-size:13px">Diagram unavailable for this topic</div>`;
+    if (container) container.innerHTML = `<div style="text-align:center;padding:16px;color:#aaa;font-size:13px">Diagram unavailable</div>`;
   }
 }
 
