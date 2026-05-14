@@ -42,61 +42,58 @@
     .t-name.done    { color: #bbb; text-decoration: line-through; }
     .t-name.current { color: #111; font-weight: 600; }
     .lbl { font-size: 10px; font-weight: 700; color: #bbb; letter-spacing: .08em; text-transform: uppercase; margin-bottom: 7px; }
-    /* Single tab: just Practice */
     .tabs { display: flex; gap: 3px; margin-bottom: 12px; background: #f0f0ef; border-radius: 10px; padding: 3px; }
     .tab { flex: 1; padding: 7px 4px; border: none; background: none; border-radius: 8px; font-size: 11px; font-weight: 600; color: #999; cursor: pointer; font-family: inherit; transition: all .15s; }
     .tab.active { background: #fff; color: #111; box-shadow: 0 1px 3px rgba(0,0,0,.08); }
     .tab-panel { display: none; }
     .tab-panel.active { display: block; }
+    /* Loading steps */
+    .load-wrap { padding: 32px 16px; }
+    .load-title { font-size: 14px; font-weight: 700; color: #111; margin-bottom: 20px; text-align: center; }
+    .load-steps { display: flex; flex-direction: column; gap: 10px; }
+    .load-step { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 12px; border: 1px solid #e5e5e5; background: #fff; transition: all .3s; }
+    .load-step.done   { border-color: #86efac; background: #f0fdf4; }
+    .load-step.active { border-color: #93c5fd; background: #eff6ff; }
+    .load-step.failed { border-color: #fca5a5; background: #fef2f2; }
+    .load-icon { font-size: 18px; width: 28px; text-align: center; flex-shrink: 0; }
+    .load-label { flex: 1; font-size: 13px; color: #555; font-weight: 500; }
+    .load-step.done   .load-label { color: #166534; }
+    .load-step.active .load-label { color: #1d4ed8; }
+    .load-step.failed .load-label { color: #dc2626; }
+    .load-status { font-size: 11px; color: #aaa; flex-shrink: 0; }
     /* Lesson */
-    .tldr { background: #f7f7f6; border-radius: 10px; padding: 12px 14px; margin-bottom: 14px; font-size: 14px; line-height: 1.7; color: #333; }
-    .sec { padding-bottom: 13px; margin-bottom: 13px; border-bottom: 1px solid #f3f3f3; }
+    .tldr { background: #f7f7f6; border-radius: 10px; padding: 12px 14px; margin-bottom: 14px; font-size: 14px; line-height: 1.75; color: #333; }
+    .sec { padding-bottom: 14px; margin-bottom: 14px; border-bottom: 1px solid #f3f3f3; }
     .sec:last-of-type { border-bottom: none; padding-bottom: 0; margin-bottom: 0; }
     .sec-num { color: #ddd; font-size: 11px; margin-right: 6px; }
-    .sec-heading { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+    .sec-heading { font-size: 14px; font-weight: 700; margin-bottom: 8px; }
     .sec-body { font-size: 14px; line-height: 1.8; color: #444; }
     .eg-box { background: #f7f7f6; border-left: 3px solid #ddd; border-radius: 0 8px 8px 0; padding: 10px 13px; margin-top: 10px; font-size: 13px; color: #555; line-height: 1.7; }
     .eg-label { font-size: 10px; font-weight: 700; color: #bbb; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 4px; }
-    /* Inline cloud block — woven into each section */
-    .cloud-inline { background: #f0f7ff; border-radius: 10px; padding: 11px 13px; margin-top: 10px; border: 1px solid #bfdbfe; }
-    .cloud-inline-title { font-size: 10px; font-weight: 700; color: #3b82f6; letter-spacing: .06em; text-transform: uppercase; margin-bottom: 8px; }
-    .cloud-row { display: flex; gap: 8px; margin-bottom: 6px; align-items: flex-start; }
-    .cloud-row:last-child { margin-bottom: 0; }
-    .cloud-badge { font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 5px; white-space: nowrap; flex-shrink: 0; margin-top: 1px; }
-    .cloud-azure { background: #dbeafe; color: #1d4ed8; }
-    .cloud-aws   { background: #ffedd5; color: #c2410c; }
-    .cloud-db    { background: #fef3c7; color: #b45309; }
-    .cloud-row-text { font-size: 12px; color: #555; line-height: 1.55; }
-    .cloud-snippet { background: #1e1e2e; border-radius: 7px; padding: 8px 11px; margin-top: 6px; font-size: 11px; font-family: monospace; color: #cdd6f4; line-height: 1.6; overflow-x: auto; white-space: pre; }
-    /* Platform comparison table */
-    .compare-wrap { margin-top: 10px; overflow-x: auto; }
-    .compare-table { width: 100%; border-collapse: collapse; font-size: 12px; }
-    .compare-table th { background: #f5f5f4; padding: 7px 10px; text-align: left; font-size: 10px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: .05em; border-bottom: 1px solid #e5e5e5; }
-    .compare-table td { padding: 8px 10px; border-bottom: 1px solid #f3f3f3; color: #444; vertical-align: top; line-height: 1.5; }
-    .compare-table tr:last-child td { border-bottom: none; }
-    .compare-table td:first-child { font-weight: 600; white-space: nowrap; }
-    /* Prior topics breadcrumb */
+    .insight { background: #eff6ff; border-radius: 10px; padding: 12px 14px; margin-bottom: 10px; font-size: 14px; line-height: 1.7; color: #1d4ed8; }
+    /* Prior connection */
+    .prior-banner { background: #faf5ff; border-radius: 10px; padding: 10px 13px; margin-bottom: 12px; border: 1px solid #e9d5ff; font-size: 13px; color: #6b21a8; line-height: 1.6; }
     .prior-wrap { background: #f7f7f6; border-radius: 10px; padding: 10px 13px; margin-bottom: 12px; }
     .prior-title { font-size: 10px; font-weight: 700; color: #bbb; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 6px; }
     .prior-chips { display: flex; gap: 6px; flex-wrap: wrap; }
     .prior-chip { font-size: 11px; color: #555; background: #fff; border: 1px solid #e5e5e5; border-radius: 6px; padding: 3px 8px; }
-    /* Insight */
-    .insight { background: #eff6ff; border-radius: 10px; padding: 12px 14px; margin-top: 4px; font-size: 14px; line-height: 1.7; color: #1d4ed8; }
-
-    /* co-box */
-    .co-box { background: #f7f7f6; border-radius: 10px; padding: 12px 13px; }
-    .co-name { font-size: 13px; font-weight: 700; margin-bottom: 4px; }
-    .co-desc { font-size: 13px; color: #666; line-height: 1.65; }
-    /* Practice links */
-    .link-row { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid #f5f5f5; text-decoration: none; }
-    .link-row:last-child { border-bottom: none; }
-    .link-icon { font-size: 18px; flex-shrink: 0; width: 34px; height: 34px; background: #f5f5f4; border-radius: 8px; display: flex; align-items: center; justify-content: center; }
-    .link-info { flex: 1; min-width: 0; }
-    .link-name { font-size: 13px; font-weight: 700; color: #111; }
-    .link-desc { font-size: 11px; color: #aaa; margin-top: 2px; }
-    .link-free { background: #dcfce7; color: #166534; font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 99px; flex-shrink: 0; }
-    .link-paid { background: #fef9c3; color: #854d0e; font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 99px; flex-shrink: 0; }
-    /* Ask box */
+    /* Cloud cards */
+    .cloud-platform { background: #f7f7f6; border-radius: 12px; padding: 14px; margin-bottom: 10px; border: 1px solid #e8e8e8; }
+    .cloud-platform-header { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+    .cloud-emoji { font-size: 20px; }
+    .cloud-platform-name { font-size: 14px; font-weight: 700; color: #111; }
+    .cloud-service-tag { margin-left: auto; font-size: 11px; color: #888; background: #fff; border: 1px solid #e5e5e5; padding: 2px 9px; border-radius: 99px; white-space: nowrap; }
+    .cloud-flow { font-size: 13px; line-height: 1.75; color: #444; margin-bottom: 8px; }
+    .cloud-snippet { background: #1e1e2e; border-radius: 8px; padding: 10px 12px; font-size: 11px; font-family: monospace; color: #cdd6f4; line-height: 1.6; overflow-x: auto; white-space: pre; }
+    /* Comparison table */
+    .compare-wrap { overflow-x: auto; }
+    .compare-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+    .compare-table th { background: #f5f5f4; padding: 8px 10px; text-align: left; font-size: 10px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: .05em; border-bottom: 1px solid #e5e5e5; }
+    .compare-table td { padding: 9px 10px; border-bottom: 1px solid #f3f3f3; color: #444; vertical-align: top; line-height: 1.55; font-size: 12px; }
+    .compare-table tr:last-child td { border-bottom: none; }
+    .compare-table td:first-child { font-weight: 600; color: #111; white-space: nowrap; }
+    .verdict-box { background: #f0fdf4; border-radius: 10px; padding: 12px 14px; border: 1px solid #86efac; margin-top: 8px; font-size: 13px; color: #166534; line-height: 1.7; }
+    /* Ask */
     .ask-box { border: 1.5px solid #e5e5e5; border-radius: 14px; padding: 14px 16px; background: #fff; margin-bottom: 10px; }
     .ask-title { font-size: 13px; font-weight: 700; color: #111; }
     .ask-input-row { display: flex; gap: 8px; align-items: flex-end; margin-top: 10px; }
@@ -107,8 +104,8 @@
     .ask-thread { margin-top: 12px; display: flex; flex-direction: column; gap: 8px; }
     .ask-msg-user { background: #111; color: #fff; border-radius: 10px 10px 2px 10px; padding: 9px 12px; font-size: 13px; line-height: 1.6; align-self: flex-end; max-width: 90%; word-break: break-word; }
     .ask-msg-ai { background: #f0f4ff; color: #1e3a8a; border-radius: 10px 10px 10px 2px; padding: 9px 12px; font-size: 13px; line-height: 1.6; align-self: flex-start; max-width: 95%; word-break: break-word; }
-    .ask-msg-thinking { color: #aaa; font-size: 12px; font-style: italic; padding: 4px 2px; display: flex; align-items: center; gap: 6px; }
-    /* Rate limit */
+    .ask-thinking { color: #aaa; font-size: 12px; font-style: italic; display: flex; align-items: center; gap: 6px; padding: 4px 0; }
+    /* Rate banner */
     .rate-banner { background: #fef9c3; border: 1px solid #fde68a; border-radius: 10px; padding: 10px 14px; font-size: 13px; color: #854d0e; margin-bottom: 10px; display: none; text-align: center; }
     /* Viva */
     .question { font-size: 15px; font-weight: 600; line-height: 1.5; color: #111; }
@@ -125,7 +122,7 @@
     .err-msg { font-size: 11px; color: #999; font-family: monospace; word-break: break-all; margin-bottom: 12px; }
     .spinner-wrap { display: flex; flex-direction: column; align-items: center; padding: 48px 0; gap: 12px; }
     .spinner { width: 26px; height: 26px; border: 3px solid #eee; border-top-color: #111; border-radius: 50%; animation: spin .7s linear infinite; }
-    .spinner-sm { width: 12px; height: 12px; border: 2px solid #ddd; border-top-color: #888; border-radius: 50%; animation: spin .7s linear infinite; display: inline-block; }
+    .spinner-sm { width: 13px; height: 13px; border: 2px solid #ddd; border-top-color: #888; border-radius: 50%; animation: spin .7s linear infinite; display: inline-block; flex-shrink: 0; }
     .spinner-msg { font-size: 13px; color: #aaa; text-align: center; }
     @keyframes spin { to { transform: rotate(360deg); } }
     .view { display: none; }
@@ -135,11 +132,28 @@
     .trophy-title { font-size: 20px; font-weight: 700; margin-bottom: 6px; }
     .trophy-sub { font-size: 14px; color: #888; }
     .done-pill { display: inline-flex; align-items: center; gap: 4px; background: #dcfce7; color: #166534; font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: 99px; }
+    /* Practice links */
+    .link-row { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid #f5f5f5; text-decoration: none; }
+    .link-row:last-child { border-bottom: none; }
+    .link-icon { font-size: 18px; flex-shrink: 0; width: 34px; height: 34px; background: #f5f5f4; border-radius: 8px; display: flex; align-items: center; justify-content: center; }
+    .link-info { flex: 1; min-width: 0; }
+    .link-name { font-size: 13px; font-weight: 700; color: #111; }
+    .link-desc { font-size: 11px; color: #aaa; margin-top: 2px; }
+    .link-free { background: #dcfce7; color: #166534; font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 99px; flex-shrink: 0; }
+    .link-paid { background: #fef9c3; color: #854d0e; font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 99px; flex-shrink: 0; }
+  /* Debug panel */
+  .debug-panel { position:fixed; bottom:0; left:0; right:0; background:#1e1e2e; color:#cdd6f4; font-size:11px; font-family:monospace; max-height:200px; overflow-y:auto; z-index:999; padding:8px 12px; display:none; border-top:2px solid #3b82f6; }
+  .debug-panel.open { display:block; }
+  .debug-toggle { position:fixed; bottom:8px; right:8px; background:#1e1e2e; color:#cdd6f4; border:1px solid #3b82f6; border-radius:6px; padding:4px 10px; font-size:11px; font-family:monospace; cursor:pointer; z-index:1000; }
+  .debug-line { padding:2px 0; border-bottom:1px solid #313244; }
+  .debug-ok   { color:#a6e3a1; }
+  .debug-err  { color:#f38ba8; }
+  .debug-info { color:#89b4fa; }
   </style>
 </head>
 <body>
 
-<!-- HOME VIEW -->
+<!-- HOME -->
 <div id="view-home" class="view active">
   <div class="nav">
     <span class="nav-title">⚙️ System Design Daily</span>
@@ -167,7 +181,7 @@
   </div>
 </div>
 
-<!-- LESSON VIEW -->
+<!-- LESSON -->
 <div id="view-lesson" class="view">
   <div class="nav">
     <button class="back-btn" onclick="goHome()">← Home</button>
@@ -185,30 +199,21 @@
         <span id="lesson-done-pill" style="display:none" class="done-pill">✓ Done</span>
       </div>
     </div>
-    <div class="rate-banner" id="lesson-rate-banner">⏳ Too many requests — waiting a moment…</div>
-    <!-- Prior topics breadcrumb -->
+    <div class="rate-banner" id="lesson-rate-banner">⏳ Rate limited — waiting before retrying…</div>
     <div id="prior-wrap" style="display:none" class="prior-wrap">
       <div class="prior-title">Building on what you've learned</div>
       <div id="prior-chips" class="prior-chips"></div>
     </div>
-    <!-- Two tabs: Lesson + Practice -->
     <div class="tabs">
       <button class="tab active" id="tab-lesson" onclick="switchTab('lesson')">📖 Lesson</button>
       <button class="tab"        id="tab-practice" onclick="switchTab('practice')">🎯 Practice</button>
     </div>
     <div id="panel-lesson" class="tab-panel active"><div id="lesson-content"></div></div>
     <div id="panel-practice" class="tab-panel"><div id="practice-content"></div></div>
-
-    <!-- Ask Groq — always visible -->
     <div class="ask-box">
-      <div style="display:flex;align-items:center;gap:8px">
-        <span style="font-size:16px">💬</span>
-        <span class="ask-title">Ask about this topic</span>
-      </div>
+      <div style="display:flex;align-items:center;gap:8px"><span style="font-size:16px">💬</span><span class="ask-title">Ask about this topic</span></div>
       <div class="ask-input-row">
-        <textarea class="ask-input" id="ask-input" rows="1"
-          placeholder="Any doubt? e.g. 'How is this different from X?'"
-          oninput="autoResize(this)"></textarea>
+        <textarea class="ask-input" id="ask-input" rows="1" placeholder="Any doubt? e.g. 'How does this differ from X?'" oninput="autoResize(this)"></textarea>
         <button class="ask-send" id="ask-send-btn" onclick="sendAsk()">Ask</button>
       </div>
       <div id="ask-thread" class="ask-thread"></div>
@@ -216,7 +221,7 @@
   </div>
 </div>
 
-<!-- VIVA VIEW -->
+<!-- VIVA -->
 <div id="view-viva" class="view">
   <div class="nav">
     <button class="back-btn" onclick="goLesson()">← Lesson</button>
@@ -279,583 +284,558 @@ const CUR = [
   ["Designing AI-Powered Apps at Scale","Pro","AI Systems"],
 ];
 
-// Practice resources
 const PRACTICE_LINKS = {
-  default: [
-    { name:"Excalidraw", desc:"Free whiteboard — sketch your own architecture diagram", url:"https://excalidraw.com", icon:"✏️", free:true },
-    { name:"System Design Primer", desc:"Open-source GitHub guide — completely free", url:"https://github.com/donnemartin/system-design-primer", icon:"⭐", free:true },
-    { name:"ByteByteGo", desc:"Visual explainers — free articles, paid book", url:"https://bytebytego.com", icon:"📘", free:false },
-    { name:"Pramp", desc:"Free mock system design interviews with peers", url:"https://www.pramp.com", icon:"🎤", free:true },
-    { name:"High Scalability", desc:"Real architecture case studies — free", url:"http://highscalability.com", icon:"🔬", free:true },
+  default:[
+    {name:"Excalidraw",desc:"Free whiteboard — sketch your architecture",url:"https://excalidraw.com",icon:"✏️",free:true},
+    {name:"System Design Primer",desc:"Open-source GitHub guide — free",url:"https://github.com/donnemartin/system-design-primer",icon:"⭐",free:true},
+    {name:"ByteByteGo",desc:"Visual explainers — free articles, paid book",url:"https://bytebytego.com",icon:"📘",free:false},
+    {name:"Pramp",desc:"Free mock system design interviews",url:"https://www.pramp.com",icon:"🎤",free:true},
+    {name:"High Scalability",desc:"Real architecture case studies — free",url:"http://highscalability.com",icon:"🔬",free:true},
   ],
-  database: [
-    { name:"DB-Fiddle", desc:"Free SQL playground", url:"https://www.db-fiddle.com", icon:"🗄️", free:true },
-    { name:"Use The Index, Luke", desc:"Free SQL indexing deep dive", url:"https://use-the-index-luke.com", icon:"📊", free:true },
+  database:[
+    {name:"DB-Fiddle",desc:"Free SQL playground",url:"https://www.db-fiddle.com",icon:"🗄️",free:true},
+    {name:"Use The Index, Luke",desc:"Free SQL indexing deep dive",url:"https://use-the-index-luke.com",icon:"📊",free:true},
   ],
-  cache: [
-    { name:"Redis University", desc:"Free Redis courses", url:"https://university.redis.com", icon:"⚡", free:true },
+  cache:[{name:"Redis University",desc:"Free Redis courses",url:"https://university.redis.com",icon:"⚡",free:true}],
+  kafka:[{name:"Confluent Learn",desc:"Free Kafka tutorials",url:"https://developer.confluent.io/learn-kafka/",icon:"📨",free:true}],
+  security:[
+    {name:"JWT.io",desc:"Free JWT decoder",url:"https://jwt.io",icon:"🔐",free:true},
+    {name:"OAuth 2.0 Simplified",desc:"Free OAuth guide",url:"https://www.oauth.com",icon:"🔑",free:true},
   ],
-  kafka: [
-    { name:"Confluent Learn", desc:"Free Kafka tutorials and labs", url:"https://developer.confluent.io/learn-kafka/", icon:"📨", free:true },
-  ],
-  security: [
-    { name:"JWT.io", desc:"Free JWT decoder and docs", url:"https://jwt.io", icon:"🔐", free:true },
-    { name:"OAuth 2.0 Simplified", desc:"Free OAuth flow guide", url:"https://www.oauth.com", icon:"🔑", free:true },
-  ],
-  microservice: [
-    { name:"Martin Fowler's Blog", desc:"Free microservices patterns deep dives", url:"https://martinfowler.com/microservices/", icon:"🏗️", free:true },
-  ],
-  ai: [
-    { name:"LangChain Docs", desc:"Free docs for LLM-powered systems", url:"https://docs.langchain.com", icon:"🤖", free:true },
-  ],
-  "case study": [
-    { name:"Architecture Notes", desc:"Free system design breakdowns", url:"https://architecturenotes.co", icon:"📝", free:true },
-  ],
+  microservice:[{name:"Martin Fowler's Blog",desc:"Free microservices patterns",url:"https://martinfowler.com/microservices/",icon:"🏗️",free:true}],
+  ai:[{name:"LangChain Docs",desc:"Free LLM system docs",url:"https://docs.langchain.com",icon:"🤖",free:true}],
+  "case study":[{name:"Architecture Notes",desc:"Free system design breakdowns",url:"https://architecturenotes.co",icon:"📝",free:true}],
 };
 
-// State
+// ── State ─────────────────────────────────────────────────────────────────────
 let state = {
-  idx: 0, done: [], showAll: false,
-  lesson: null, question: "",
-  practiceLoaded: false,
-  askHistory: [],
-  // lesson tldr cache: {idx -> tldr} so we can give prior context
-  tldrCache: {},
+  idx:0, done:[], showAll:false,
+  lesson:null, question:"",
+  practiceLoaded:false, askHistory:[],
+  tldrCache:{},
 };
 
-// Request queue — prevents 429s from rapid navigation
-const queue = { running: false, items: [] };
-function enqueue(fn) {
-  return new Promise((resolve, reject) => {
-    queue.items.push({ fn, resolve, reject });
-    runQueue();
-  });
-}
-async function runQueue() {
-  if (queue.running || !queue.items.length) return;
-  queue.running = true;
-  const { fn, resolve, reject } = queue.items.shift();
-  try { resolve(await fn()); } catch(e) { reject(e); }
-  finally { queue.running = false; setTimeout(runQueue, 350); }
-}
-
+// ── Persist ───────────────────────────────────────────────────────────────────
 function saveState() {
-  localStorage.setItem("syd-v5", JSON.stringify({
-    idx: state.idx, done: state.done, tldrCache: state.tldrCache
-  }));
+  localStorage.setItem("syd-v8", JSON.stringify({idx:state.idx,done:state.done,tldrCache:state.tldrCache}));
 }
 function loadState() {
   try {
-    const s = JSON.parse(localStorage.getItem("syd-v5") || "{}");
-    state.idx      = s.idx       || 0;
-    state.done     = s.done      || [];
-    state.tldrCache= s.tldrCache || {};
-  } catch(e) {}
+    const s = JSON.parse(localStorage.getItem("syd-v8")||"{}");
+    state.idx=s.idx||0; state.done=s.done||[]; state.tldrCache=s.tldrCache||{};
+  } catch(e){}
 }
 
-function badge(lvl) {
-  const cls = lvl === "Case Study" ? "badge-Case" : `badge-${lvl}`;
-  return `<span class="badge ${cls}">${lvl}</span>`;
+// ── Queue (for lesson/cloud calls only) ───────────────────────────────────────
+const Q = {running:false, items:[]};
+function enqueue(fn) {
+  return new Promise((res,rej) => { Q.items.push({fn,res,rej}); runQ(); });
 }
-
-// ── Home ─────────────────────────────────────────────────────────────────────
-function renderHome() {
-  const pct = Math.round((state.done.length / CUR.length) * 100);
-  const finished = state.done.length >= CUR.length;
-  document.getElementById("prog-fill").style.width = pct + "%";
-  document.getElementById("home-progress-label").textContent = `${state.done.length}/${CUR.length} · ${pct}%`;
-  document.getElementById("today-card").style.display  = finished ? "none" : "block";
-  document.getElementById("trophy-card").style.display = finished ? "block" : "none";
-  if (!finished) {
-    let next = CUR.findIndex((_, i) => !state.done.includes(i));
-    if (next === -1) next = 0;
-    state.idx = next;
-    const cur = CUR[next];
-    document.getElementById("today-title").textContent = cur[0];
-    document.getElementById("today-badges").innerHTML  = badge(cur[1]) + `<span class="tag">${cur[2]}</span>`;
-    document.getElementById("today-sub").textContent   = `Topic ${next + 1} of ${CUR.length}`;
-  }
-  renderCurriculum();
-}
-
-function renderCurriculum() {
-  const limit = state.showAll ? CUR.length : 10;
-  let html = "";
-  for (let i = 0; i < limit; i++) {
-    const c = CUR[i], isComp = state.done.includes(i), isCur = i === state.idx;
-    const numCls = isComp ? "done" : isCur ? "current" : "";
-    const nameCls = isComp ? "done" : isCur ? "current" : "";
-    html += `<div class="t-row" onclick="startLesson(${i})">
-      <div class="t-num ${numCls}">${isComp ? "✓" : i + 1}</div>
-      <div class="t-name ${nameCls}">${c[0]}</div>
-      ${badge(c[1])}
-    </div>`;
-  }
-  document.getElementById("curriculum-list").innerHTML = html;
-  document.getElementById("show-all-btn").textContent = state.showAll ? "Show less" : `See all ${CUR.length} topics`;
-}
-function toggleAll() { state.showAll = !state.showAll; renderCurriculum(); }
-
-// ── Tabs ─────────────────────────────────────────────────────────────────────
-function switchTab(tab) {
-  ["lesson","practice"].forEach(t => {
-    document.getElementById("tab-" + t).classList.toggle("active", t === tab);
-    document.getElementById("panel-" + t).classList.toggle("active", t === tab);
-  });
-  if (tab === "practice" && !state.practiceLoaded) renderPractice(CUR[state.idx]);
+async function runQ() {
+  if (Q.running||!Q.items.length) return;
+  Q.running=true;
+  const {fn,res,rej}=Q.items.shift();
+  try{res(await fn());}catch(e){rej(e);}
+  finally{Q.running=false; setTimeout(runQ,300);}
 }
 
 // ── API ───────────────────────────────────────────────────────────────────────
 function showRateBanner(show) {
-  const el = document.getElementById("lesson-rate-banner");
-  if (el) el.style.display = show ? "block" : "none";
+  const el=document.getElementById("lesson-rate-banner");
+  if(el) el.style.display=show?"block":"none";
 }
 
 function extractJSON(text) {
-  try { return JSON.parse(text); } catch(_) {}
-  const fenced = text.match(/```(?:json)?\s*([\s\S]*?)```/);
-  if (fenced) { try { return JSON.parse(fenced[1].trim()); } catch(_) {} }
-  const s = text.indexOf("{"), e = text.lastIndexOf("}");
-  if (s !== -1 && e > s) { try { return JSON.parse(text.slice(s, e + 1)); } catch(_) {} }
-  // Salvage truncated JSON
-  if (s !== -1) {
-    let p = text.slice(s), braces = 0, brackets = 0, inStr = false, esc = false;
-    for (const ch of p) {
-      if (esc) { esc = false; continue; }
-      if (ch === "\\") { esc = true; continue; }
-      if (ch === '"') { inStr = !inStr; continue; }
-      if (inStr) continue;
-      if (ch === "{") braces++; else if (ch === "}") braces--;
-      else if (ch === "[") brackets++; else if (ch === "]") brackets--;
+  try{return JSON.parse(text);}catch(_){}
+  const f=text.match(/```(?:json)?\s*([\s\S]*?)```/);
+  if(f){try{return JSON.parse(f[1].trim());}catch(_){}}
+  const s=text.indexOf("{"),e=text.lastIndexOf("}");
+  if(s!==-1&&e>s){try{return JSON.parse(text.slice(s,e+1));}catch(_){}}
+  if(s!==-1){
+    let p=text.slice(s),br=0,bk=0,inS=false,es=false;
+    for(const c of p){
+      if(es){es=false;continue;} if(c==="\\"){es=true;continue;}
+      if(c==='"'){inS=!inS;continue;} if(inS)continue;
+      if(c==="{"){ br++;}else if(c==="}"){ br--;}
+      else if(c==="["){ bk++;}else if(c==="]"){ bk--;}
     }
-    if (inStr) p += '"';
-    while (brackets > 0) { p += "]"; brackets--; }
-    while (braces > 0) { p += "}"; braces--; }
-    try { return JSON.parse(p); } catch(_) {}
+    if(inS) p+='"';
+    while(bk>0){p+="]";bk--;} while(br>0){p+="}";br--;}
+    try{return JSON.parse(p);}catch(_){}
   }
-  throw new Error(`Could not parse JSON. AI said: ${text.slice(0, 200)}`);
+  throw new Error("Could not parse JSON. AI said: "+text.slice(0,200));
 }
 
-async function callAI(prompt, maxTokens = 2000) {
-  return enqueue(async () => {
-    let raw = "";
-    try {
-      const controller = new AbortController();
-      const timer = setTimeout(() => controller.abort(), 25000); // 25s timeout
-      let resp;
-      try {
-        resp = await fetch("/api/chat", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ messages: [{ role:"user", content:prompt }], max_tokens: maxTokens }),
-          signal: controller.signal,
-        });
-      } finally { clearTimeout(timer); }
-      raw = await resp.text();
-      if (resp.status === 429) {
-        showRateBanner(true);
-        setTimeout(() => showRateBanner(false), 10000);
-        throw new Error("Rate limited — please wait a moment and try again");
-      }
-      if (!resp.ok) throw new Error(`HTTP ${resp.status}: ${raw.slice(0,300)}`);
-      const data = JSON.parse(raw);
-      if (data.error) throw new Error(data.error.message || JSON.stringify(data.error));
-      const text = data.choices?.[0]?.message?.content || "";
-      if (!text) throw new Error(`Empty AI response. Raw: ${raw.slice(0,200)}`);
-      return extractJSON(text);
-    } catch(e) {
-      // Re-throw with raw response appended so errorHTML shows what actually came back
-      if (raw && !e.message.includes(raw.slice(0,20))) {
-        throw new Error(e.message + " | raw: " + raw.slice(0,300));
-      }
-      throw e;
-    }
+// Queued JSON call (lesson/viva/cloud)
+async function callAI(prompt, maxTokens=1200) {
+  const label = prompt.slice(7,40).replace(/\n/g," "); // first ~30 chars after "Teach..."
+  dlog(`callAI start: "${label}…" max=${maxTokens}`, "info");
+  return enqueue(async()=>{
+    const resp=await fetch("/api/chat",{
+      method:"POST", headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({messages:[{role:"user",content:prompt}],max_tokens:maxTokens}),
+    });
+    const raw=await resp.text();
+    if(resp.status===429){dlog(`RATE LIMITED 429`,"err");showRateBanner(true);setTimeout(()=>showRateBanner(false),10000);throw new Error("Rate limited — please wait");}
+    if(!resp.ok){dlog(`HTTP error ${resp.status}: ${raw.slice(0,100)}`,"err");throw new Error(`HTTP ${resp.status}: ${raw.slice(0,200)}`);}
+    const data=JSON.parse(raw);
+    if(data.error){dlog(`Groq error: ${data.error.message}`,"err");throw new Error(data.error.message||JSON.stringify(data.error));}
+    const text=data.choices?.[0]?.message?.content||"";
+    const usage=data.usage||{};
+    if(!text){dlog(`Empty response. prompt_tokens=${usage.prompt_tokens}`,"err");throw new Error("Empty response from Groq");}
+    dlog(`callAI OK — prompt_tokens=${usage.prompt_tokens} completion_tokens=${usage.completion_tokens} content_len=${text.length}`,"ok");
+    return extractJSON(text);
   });
 }
 
-async function callAIText(messages, maxTokens = 600) {
-  // Direct fetch — bypasses queue so Ask never waits behind lesson/diagram calls
-  const resp = await fetch("/api/chat", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ messages, max_tokens: maxTokens, plain_text: true }),
+// Direct call — bypasses queue (Ask box)
+async function callAIText(messages, maxTokens=600) {
+  const resp=await fetch("/api/chat",{
+    method:"POST", headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({messages,max_tokens:maxTokens,plain_text:true}),
   });
-  const raw = await resp.text();
-  if (resp.status === 429) {
-    showRateBanner(true);
-    setTimeout(() => showRateBanner(false), 10000);
-    throw new Error("Rate limited — please wait a moment");
-  }
-  if (!resp.ok) throw new Error(`HTTP ${resp.status}: ${raw.slice(0,200)}`);
-  const data = JSON.parse(raw);
-  let text = data.choices?.[0]?.message?.content || "";
-  // If model still returned JSON object, unwrap the value
-  if (text.trim().startsWith("{")) {
-    try {
-      const p = JSON.parse(text);
-      text = p.response || p.answer || p.text || p.content || text;
-    } catch(_) {}
+  const raw=await resp.text();
+  if(resp.status===429){showRateBanner(true);setTimeout(()=>showRateBanner(false),10000);throw new Error("Rate limited");}
+  if(!resp.ok) throw new Error(`HTTP ${resp.status}: ${raw.slice(0,200)}`);
+  const data=JSON.parse(raw);
+  let text=data.choices?.[0]?.message?.content||"";
+  if(text.trim().startsWith("{")){
+    try{const p=JSON.parse(text);text=p.response||p.answer||p.text||text;}catch(_){}
   }
   return text;
 }
 
 // ── Views ─────────────────────────────────────────────────────────────────────
-function showView(id) {
-  document.querySelectorAll(".view").forEach(v => v.classList.remove("active"));
-  document.getElementById("view-" + id).classList.add("active");
-  window.scrollTo(0, 0);
-}
-function goHome()   { showView("home"); renderHome(); }
-function goLesson() { showView("lesson"); }
-function navigateLesson(dir) {
-  const ni = state.idx + dir;
-  if (ni >= 0 && ni < CUR.length) startLesson(ni);
-}
+function showView(id){document.querySelectorAll(".view").forEach(v=>v.classList.remove("active"));document.getElementById("view-"+id).classList.add("active");window.scrollTo(0,0);}
+function goHome(){showView("home");renderHome();}
+function goLesson(){showView("lesson");}
+function navigateLesson(dir){const ni=state.idx+dir;if(ni>=0&&ni<CUR.length)startLesson(ni);}
 
-// ── Prior topic context ───────────────────────────────────────────────────────
-function getPriorContext(idx) {
-  // Up to 3 most recent completed topics before this one, with cached tldr
-  const prior = [];
-  for (let i = Math.max(0, idx - 5); i < idx; i++) {
-    if (state.done.includes(i) || state.tldrCache[i]) {
-      prior.push({ name: CUR[i][0], tldr: state.tldrCache[i] || null });
-    }
+// ── Home ──────────────────────────────────────────────────────────────────────
+function badge(lvl){const cls=lvl==="Case Study"?"badge-Case":`badge-${lvl}`;return `<span class="badge ${cls}">${lvl}</span>`;}
+
+function renderHome(){
+  const pct=Math.round((state.done.length/CUR.length)*100);
+  const fin=state.done.length>=CUR.length;
+  document.getElementById("prog-fill").style.width=pct+"%";
+  document.getElementById("home-progress-label").textContent=`${state.done.length}/${CUR.length} · ${pct}%`;
+  document.getElementById("today-card").style.display=fin?"none":"block";
+  document.getElementById("trophy-card").style.display=fin?"block":"none";
+  if(!fin){
+    let next=CUR.findIndex((_,i)=>!state.done.includes(i));
+    if(next===-1)next=0; state.idx=next;
+    const cur=CUR[next];
+    document.getElementById("today-title").textContent=cur[0];
+    document.getElementById("today-badges").innerHTML=badge(cur[1])+`<span class="tag">${cur[2]}</span>`;
+    document.getElementById("today-sub").textContent=`Topic ${next+1} of ${CUR.length}`;
   }
-  return prior.slice(-3);
+  renderCurriculum();
 }
 
-function renderPriorWrap(prior) {
-  const wrap = document.getElementById("prior-wrap");
-  const chips = document.getElementById("prior-chips");
-  if (!prior.length) { wrap.style.display = "none"; return; }
-  chips.innerHTML = prior.map(p =>
-    `<span class="prior-chip" title="${esc(p.tldr || '')}">${esc(p.name)}</span>`
-  ).join("");
-  wrap.style.display = "block";
+function renderCurriculum(){
+  const limit=state.showAll?CUR.length:10;
+  let html="";
+  for(let i=0;i<limit;i++){
+    const c=CUR[i],isC=state.done.includes(i),isU=i===state.idx;
+    html+=`<div class="t-row" onclick="startLesson(${i})">
+      <div class="t-num ${isC?"done":isU?"current":""}">${isC?"✓":i+1}</div>
+      <div class="t-name ${isC?"done":isU?"current":""}">${c[0]}</div>
+      ${badge(c[1])}
+    </div>`;
+  }
+  document.getElementById("curriculum-list").innerHTML=html;
+  document.getElementById("show-all-btn").textContent=state.showAll?"Show less":`See all ${CUR.length} topics`;
+}
+function toggleAll(){state.showAll=!state.showAll;renderCurriculum();}
+
+// ── Tabs ──────────────────────────────────────────────────────────────────────
+function switchTab(tab){
+  ["lesson","practice"].forEach(t=>{
+    document.getElementById("tab-"+t).classList.toggle("active",t===tab);
+    document.getElementById("panel-"+t).classList.toggle("active",t===tab);
+  });
+  if(tab==="practice"&&!state.practiceLoaded) renderPractice(CUR[state.idx]);
 }
 
-// ── Lesson ────────────────────────────────────────────────────────────────────
-async function startLesson(idx) {
-  state.idx = idx;
-  saveState();
-  state.lesson = null; state.question = "";
-  state.practiceLoaded = false;
-  state.askHistory = [];
+// ── Prior context ─────────────────────────────────────────────────────────────
+function getPrior(idx){
+  const out=[];
+  for(let i=Math.max(0,idx-6);i<idx;i++){
+    if(state.done.includes(i)||state.tldrCache[i]) out.push({name:CUR[i][0],tldr:state.tldrCache[i]||null});
+  }
+  return out.slice(-3);
+}
+function renderPriorWrap(prior){
+  const w=document.getElementById("prior-wrap");
+  if(!prior.length){w.style.display="none";return;}
+  document.getElementById("prior-chips").innerHTML=prior.map(p=>`<span class="prior-chip" title="${esc(p.tldr||'')}">${esc(p.name)}</span>`).join("");
+  w.style.display="block";
+}
+
+// ── Loading steps UI ──────────────────────────────────────────────────────────
+const STEPS=[
+  {id:"s-core",  icon:"📖", label:"Core explanation"},
+  {id:"s-azure", icon:"🔷", label:"Azure microservices implementation"},
+  {id:"s-aws",   icon:"🟠", label:"AWS microservices implementation"},
+  {id:"s-cmp",   icon:"📊", label:"Platform comparison & recommendation"},
+];
+
+function renderLoadingSteps(){
+  return `<div class="load-wrap">
+    <div class="load-title">Preparing your lesson…</div>
+    <div class="load-steps">
+      ${STEPS.map(s=>`
+        <div class="load-step" id="${s.id}">
+          <div class="load-icon">${s.icon}</div>
+          <div class="load-label">${s.label}</div>
+          <div class="load-status"><span class="spinner-sm"></span></div>
+        </div>`).join("")}
+    </div>
+  </div>`;
+}
+
+function setStep(id, state){  // state: 'active'|'done'|'failed'
+  const el=document.getElementById(id);
+  if(!el) return;
+  el.className="load-step "+state;
+  const st=el.querySelector(".load-status");
+  if(state==="done")   st.textContent="✓";
+  else if(state==="failed") st.textContent="✗";
+  else st.innerHTML=`<span class="spinner-sm"></span>`;
+}
+
+// ── Start Lesson ──────────────────────────────────────────────────────────────
+async function startLesson(idx){
+  state.idx=idx; saveState();
+  state.lesson=null; state.question="";
+  state.practiceLoaded=false; state.askHistory=[];
 
   showView("lesson");
-  const t = CUR[idx];
-
-  document.getElementById("lesson-nav-sub").textContent = `${idx + 1} / ${CUR.length}`;
-  document.getElementById("lesson-title").textContent   = t[0];
-  document.getElementById("lesson-badges").innerHTML    = badge(t[1]) + `<span class="tag">${t[2]}</span>`;
-  document.getElementById("prev-btn").disabled = idx === 0;
-  document.getElementById("next-btn").disabled = idx === CUR.length - 1;
-  document.getElementById("lesson-done-pill").style.display = state.done.includes(idx) ? "inline-flex" : "none";
-
-  // Reset tabs to Lesson
-  ["lesson","practice"].forEach(tab => {
-    document.getElementById("tab-" + tab).classList.toggle("active", tab === "lesson");
-    document.getElementById("panel-" + tab).classList.toggle("active", tab === "lesson");
+  const t=CUR[idx];
+  document.getElementById("lesson-nav-sub").textContent=`${idx+1} / ${CUR.length}`;
+  document.getElementById("lesson-title").textContent=t[0];
+  document.getElementById("lesson-badges").innerHTML=badge(t[1])+`<span class="tag">${t[2]}</span>`;
+  document.getElementById("prev-btn").disabled=idx===0;
+  document.getElementById("next-btn").disabled=idx===CUR.length-1;
+  document.getElementById("lesson-done-pill").style.display=state.done.includes(idx)?"inline-flex":"none";
+  ["lesson","practice"].forEach(tab=>{
+    document.getElementById("tab-"+tab).classList.toggle("active",tab==="lesson");
+    document.getElementById("panel-"+tab).classList.toggle("active",tab==="lesson");
   });
-  document.getElementById("ask-thread").innerHTML = "";
-  document.getElementById("ask-input").value = "";
-  document.getElementById("practice-content").innerHTML = "";
+  document.getElementById("ask-thread").innerHTML="";
+  document.getElementById("ask-input").value="";
+  document.getElementById("practice-content").innerHTML="";
 
-  // Prior context
-  const prior = getPriorContext(idx);
+  const prior=getPrior(idx);
   renderPriorWrap(prior);
+  const priorStr=prior.length?" Prior topics the student knows: "+prior.map(p=>p.name).join(", ")+".":" ";
 
-  document.getElementById("lesson-content").innerHTML = spinnerHTML("Preparing your lesson…");
+  // Show loading steps
+  document.getElementById("lesson-content").innerHTML=renderLoadingSteps();
 
-  // Build prior context string for the AI
-  const priorStr = prior.length
-    ? `\n\nStudent has already completed these topics (use them to build on prior knowledge):\n` +
-      prior.map(p => `- "${p.name}"${p.tldr ? `: ${p.tldr}` : ""}`).join("\n")
-    : "";
+  // ── 4 parallel calls ──────────────────────────────────────────────────────
+  const topic=t[0], level=t[1];
 
+  const p1 = callAI(
+`Teach "${topic}" (${level}).${priorStr}
+Plain English, real analogies, concrete numbers. Connect to prior topics if relevant.
+Return ONLY valid JSON (no markdown):
+{"tldr":"one punchy sentence — the core trade-off","prior_connection":"one sentence linking to a prior topic or null","sections":[{"heading":"title","content":"3 sentences: analogy, technical reality, scale number","example":"real company: the problem they had and how this concept solved it — 2 sentences"}],"key_insight":"what a senior engineer knows that a junior misses — use when X, avoid when Y","viva_question":"scenario: You are building X and notice Y — what do you do?"}
+Exactly 3 sections. No extra keys.`, 1200
+  ).then(d=>{ setStep("s-core","done"); return d; })
+   .catch(e=>{ setStep("s-core","failed"); throw e; });
+
+  const p2 = callAI(
+`For the system design topic "${topic}", explain how Azure implements this in a real microservices architecture.
+Be specific: name the exact Azure service, describe the actual data/event flow between services, explain why Azure engineers choose this over the alternative.
+Return ONLY valid JSON (no markdown):
+{"service":"exact Azure service name","flow":"step-by-step microservices flow: ServiceA does X → [Azure service] does Y → ServiceB does Z — 3 sentences with real reasoning","snippet":"4-6 line ARM/CLI/config or code example showing actual usage","usecase":"a real-world company scenario where this Azure implementation shines — 2 sentences"}
+No extra keys.`, 900
+  ).then(d=>{ setStep("s-azure","done"); return d; })
+   .catch(e=>{ setStep("s-azure","failed"); return null; });
+
+  const p3 = callAI(
+`For the system design topic "${topic}", explain how AWS implements this in a real microservices architecture.
+Be specific: name the exact AWS service, describe the actual flow, highlight what is architecturally different from the Azure approach.
+Return ONLY valid JSON (no markdown):
+{"service":"exact AWS service name","flow":"step-by-step microservices flow: ServiceA does X → [AWS service] does Y → ServiceB does Z — 3 sentences with real reasoning","snippet":"4-6 line CloudFormation/CLI/SDK code example","usecase":"a real-world company scenario where this AWS implementation shines — 2 sentences","vs_azure":"the key architectural difference between this AWS approach and the Azure equivalent — 1 sentence"}
+No extra keys.`, 900
+  ).then(d=>{ setStep("s-aws","done"); return d; })
+   .catch(e=>{ setStep("s-aws","failed"); return null; });
+
+  const p4 = callAI(
+`Compare Azure, AWS, and Databricks for implementing the system design topic "${topic}" in a microservices context.
+Return ONLY valid JSON (no markdown):
+{"rows":[{"aspect":"aspect name","azure":"2-4 words","aws":"2-4 words","databricks":"2-4 words"}],"databricks_flow":"how a Databricks/Spark data pipeline implements this concept — 2 sentences with actual Delta/Spark feature names","pick_azure":"one concrete scenario where you would pick Azure","pick_aws":"one concrete scenario where you would pick AWS","pick_databricks":"one concrete scenario where you would pick Databricks"}
+Exactly 4 rows in rows[]. No extra keys.`, 900
+  ).then(d=>{ setStep("s-cmp","done"); return d; })
+   .catch(e=>{ setStep("s-cmp","failed"); return null; });
+
+  // Wait for all 4 to settle (allSettled so one failure doesn't kill the rest)
+  let [r1,r2,r3,r4];
   try {
-    const data = await callAI(
-`Teach me: "${t[0]}" (level: ${t[1]}).${priorStr}
-
-Write like a senior engineer explaining to a junior — plain English, real examples, no fluff.
-For cloud fields: name the exact service, describe a REAL microservices flow (e.g. "Service A calls Service B via..."), not just "Azure has X".
-
-Return ONLY this JSON (no markdown, no backticks):
-{
-  "tldr": "one punchy sentence — the core problem this solves",
-  "prior_connection": "one sentence building on a prior topic the student learned, or null",
-  "sections": [
-    {
-      "heading": "section title",
-      "content": "3-4 sentences in plain English. Start with a real-world analogy. Explain the concept, why it matters, and a concrete scale number (e.g. handles X req/sec).",
-      "example": "Real company example: what problem they had, what they built, what happened as a result.",
-      "azure": "Azure [exact service]: describe a real microservices flow — e.g. Service A → Azure Service Bus → Service B. Why Azure engineers choose this over alternatives.",
-      "aws": "AWS [exact service]: same real flow format. What makes it different from the Azure approach.",
-      "databricks": "Databricks/Delta/Spark [exact feature]: how a data pipeline or ML workflow uses this — show the actual flow.",
-      "cloud_diff": "The key architectural difference between Azure and AWS here — when you would pick one over the other."
-    }
-  ],
-  "platform_comparison": [
-    { "aspect": "short aspect", "azure": "3-5 words", "aws": "3-5 words", "databricks": "3-5 words" }
-  ],
-  "key_insight": "The one thing a senior engineer knows that a junior misses. Format: Use X when Y. Avoid X when Z.",
-  "viva_question": "A scenario-based interview question: You are building X and notice Y — how do you approach Z?"
-}
-
-Rules: exactly 3 sections, exactly 3 platform_comparison rows. No extra keys. Valid JSON only.`, 2500);
-
-    state.lesson = data;
-    state.question = data.viva_question || "Explain this concept and give a real-world example.";
-    // Cache tldr for future topics
-    if (data.tldr) { state.tldrCache[idx] = data.tldr; saveState(); }
-    document.getElementById("lesson-content").innerHTML = renderLessonHTML(data);
-
+    [r1,r2,r3,r4] = await Promise.all([p1,p2,p3,p4]);
   } catch(e) {
-    document.getElementById("lesson-content").innerHTML = errorHTML(e.message, `startLesson(${idx})`);
+    // p1 (core lesson) is the only hard failure — others are optional
+    document.getElementById("lesson-content").innerHTML=errorHTML(e.message,`startLesson(${idx})`);
+    return;
   }
+
+  // Cache tldr for future topics
+  if(r1?.tldr){ state.tldrCache[idx]=r1.tldr; saveState(); }
+  state.lesson=r1;
+  state.question=r1.viva_question||"Explain this concept and give a real-world example.";
+
+  // Render everything at once
+  document.getElementById("lesson-content").innerHTML=renderFullLesson(r1,r2,r3,r4);
 }
 
-function renderLessonHTML(d) {
-  let html = "";
+// ── Render combined lesson ────────────────────────────────────────────────────
+function renderFullLesson(core, azure, aws, cmp){
+  let html="";
 
-  // Prior connection callout
-  if (d.prior_connection) {
-    html += `<div style="background:#faf5ff;border-radius:10px;padding:10px 13px;margin-bottom:12px;border:1px solid #e9d5ff;font-size:13px;color:#6b21a8">
-      🔗 <strong>Building on:</strong> ${esc(d.prior_connection)}
+  // Prior connection
+  if(core.prior_connection){
+    html+=`<div class="prior-banner">🔗 <strong>Building on:</strong> ${esc(core.prior_connection)}</div>`;
+  }
+
+  // ── Core explanation ──
+  html+=`<div class="card">
+    <div class="lbl">📖 Core Concept</div>
+    <div class="tldr">${esc(core.tldr)}</div>`;
+  (core.sections||[]).forEach((s,i)=>{
+    html+=`<div class="sec">
+      <div class="sec-heading"><span class="sec-num">${String(i+1).padStart(2,"0")}</span>${esc(s.heading)}</div>
+      <div class="sec-body">${esc(s.content)}</div>
+      ${s.example?`<div class="eg-box"><div class="eg-label">Real-world example</div>${esc(s.example)}</div>`:""}
+    </div>`;
+  });
+  html+=`</div>`;
+
+  if(core.key_insight) html+=`<div class="insight">🔑 ${esc(core.key_insight)}</div>`;
+
+  // ── Azure ──
+  if(azure){
+    html+=`<div class="cloud-platform">
+      <div class="cloud-platform-header">
+        <span class="cloud-emoji">🔷</span>
+        <span class="cloud-platform-name">Azure</span>
+        <span class="cloud-service-tag">${esc(azure.service||"")}</span>
+      </div>
+      <div class="cloud-flow">${esc(azure.flow||"")}</div>
+      ${azure.usecase?`<div class="eg-box"><div class="eg-label">When to use this</div>${esc(azure.usecase)}</div>`:""}
+      ${azure.snippet?`<div class="cloud-snippet">${esc(azure.snippet)}</div>`:""}
     </div>`;
   }
 
-  // TL;DR
-  html += `<div class="card"><div class="lbl">TL;DR</div><div class="tldr">${esc(d.tldr)}</div>`;
+  // ── AWS ──
+  if(aws){
+    html+=`<div class="cloud-platform">
+      <div class="cloud-platform-header">
+        <span class="cloud-emoji">🟠</span>
+        <span class="cloud-platform-name">AWS</span>
+        <span class="cloud-service-tag">${esc(aws.service||"")}</span>
+      </div>
+      <div class="cloud-flow">${esc(aws.flow||"")}</div>
+      ${aws.usecase?`<div class="eg-box"><div class="eg-label">When to use this</div>${esc(aws.usecase)}</div>`:""}
+      ${aws.snippet?`<div class="cloud-snippet">${esc(aws.snippet)}</div>`:""}
+      ${aws.vs_azure?`<div style="margin-top:8px;padding-top:8px;border-top:1px solid #e5e5e5;font-size:12px;color:#555"><strong>⚡ vs Azure:</strong> ${esc(aws.vs_azure)}</div>`:""}
+    </div>`;
+  }
 
-  // Sections with inline cloud
-  (d.sections || []).forEach((s, i) => {
-    html += `<div class="sec">
-      <div class="sec-heading"><span class="sec-num">${String(i+1).padStart(2,"0")}</span>${esc(s.heading)}</div>
-      <div class="sec-body">${esc(s.content)}</div>
-      ${s.example ? `<div class="eg-box"><div class="eg-label">Real-world example</div>${esc(s.example)}</div>` : ""}`;
-
-    // Inline cloud block — fields now flat on section object
-    if (s.azure || s.aws || s.databricks) {
-      html += `<div class="cloud-inline">
-        <div class="cloud-inline-title">☁️ How platforms implement this</div>
-        ${s.azure ? `<div class="cloud-row"><span class="cloud-badge cloud-azure">Azure</span><span class="cloud-row-text">${esc(s.azure)}</span></div>` : ""}
-        ${s.aws ? `<div class="cloud-row"><span class="cloud-badge cloud-aws">AWS</span><span class="cloud-row-text">${esc(s.aws)}</span></div>` : ""}
-        ${s.databricks ? `<div class="cloud-row"><span class="cloud-badge cloud-db">Databricks</span><span class="cloud-row-text">${esc(s.databricks)}</span></div>` : ""}
-        ${s.cloud_diff ? `<div style="margin-top:8px;padding-top:8px;border-top:1px solid #bfdbfe;font-size:12px;color:#374151"><strong>⚡ Azure vs AWS:</strong> ${esc(s.cloud_diff)}</div>` : ""}
-      </div>`;
-    }
-    html += `</div>`;
-  });
-  html += `</div>`;
-
-  // Platform comparison table
-  if (d.platform_comparison && d.platform_comparison.length) {
-    html += `<div class="card">
-      <div class="lbl">Platform Comparison</div>
+  // ── Comparison table ──
+  if(cmp){
+    html+=`<div class="card">
+      <div class="lbl">📊 Platform Comparison</div>
       <div class="compare-wrap">
         <table class="compare-table">
           <thead><tr><th>Aspect</th><th>🔷 Azure</th><th>🟠 AWS</th><th>🔶 Databricks</th></tr></thead>
           <tbody>`;
-    d.platform_comparison.forEach(row => {
-      html += `<tr>
-        <td>${esc(row.aspect)}</td>
-        <td>${esc(row.azure)}</td>
-        <td>${esc(row.aws)}</td>
-        <td>${esc(row.databricks)}</td>
-      </tr>`;
+    (cmp.rows||[]).forEach(r=>{
+      html+=`<tr><td>${esc(r.aspect)}</td><td>${esc(r.azure)}</td><td>${esc(r.aws)}</td><td>${esc(r.databricks)}</td></tr>`;
     });
-    html += `</tbody></table></div></div>`;
+    html+=`</tbody></table></div>`;
+    if(cmp.databricks_flow){
+      html+=`<div style="margin-top:10px;padding-top:10px;border-top:1px solid #f3f3f3">
+        <div class="lbl" style="margin-bottom:5px">🔶 Databricks flow</div>
+        <div style="font-size:13px;color:#555;line-height:1.7">${esc(cmp.databricks_flow)}</div>
+      </div>`;
+    }
+    if(cmp.pick_azure||cmp.pick_aws||cmp.pick_databricks){
+      html+=`<div class="verdict-box" style="margin-top:10px">
+        <div style="font-weight:700;margin-bottom:6px;font-size:12px">When to pick each:</div>
+        ${cmp.pick_azure?`<div style="margin-bottom:4px">🔷 <strong>Azure:</strong> ${esc(cmp.pick_azure)}</div>`:""}
+        ${cmp.pick_aws?`<div style="margin-bottom:4px">🟠 <strong>AWS:</strong> ${esc(cmp.pick_aws)}</div>`:""}
+        ${cmp.pick_databricks?`<div>🔶 <strong>Databricks:</strong> ${esc(cmp.pick_databricks)}</div>`:""}
+      </div>`;
+    }
+    html+=`</div>`;
   }
 
-  // Diagram removed
-
-  // Key insight
-  if (d.key_insight) html += `<div class="insight">🔑 ${esc(d.key_insight)}</div>`;
-
   // Viva button
-  html += `<button class="btn btn-primary" onclick="startViva()" style="margin-top:14px">
-    ${state.done.includes(state.idx) ? "✏️ Retake the viva" : "✏️ Take the viva"}
+  html+=`<button class="btn btn-primary" onclick="startViva()" style="margin-top:4px">
+    ${state.done.includes(state.idx)?"✏️ Retake the viva":"✏️ Take the viva"}
   </button>`;
 
   return html;
 }
 
-
-
 // ── Practice ──────────────────────────────────────────────────────────────────
-function renderPractice(topicEntry) {
-  state.practiceLoaded = true;
-  const name = topicEntry[0].toLowerCase(), cat = topicEntry[2].toLowerCase();
-  let links = [...PRACTICE_LINKS.default];
-  for (const [k, arr] of Object.entries(PRACTICE_LINKS)) {
-    if (k === "default") continue;
-    if (name.includes(k) || cat.includes(k)) links = [...arr, ...links];
+function renderPractice(topicEntry){
+  state.practiceLoaded=true;
+  const name=topicEntry[0].toLowerCase(),cat=topicEntry[2].toLowerCase();
+  let links=[...PRACTICE_LINKS.default];
+  for(const[k,arr]of Object.entries(PRACTICE_LINKS)){
+    if(k==="default") continue;
+    if(name.includes(k)||cat.includes(k)) links=[...arr,...links];
   }
-  document.getElementById("practice-content").innerHTML = `
-    <div class="card">
-      <div class="lbl">Practice & Reference</div>
-      ${links.map(l => `
+  document.getElementById("practice-content").innerHTML=`
+    <div class="card"><div class="lbl">Practice & Reference</div>
+      ${links.map(l=>`
         <a class="link-row" href="${l.url}" target="_blank" rel="noopener">
           <div class="link-icon">${l.icon}</div>
-          <div class="link-info">
-            <div class="link-name">${esc(l.name)}</div>
-            <div class="link-desc">${esc(l.desc)}</div>
-          </div>
-          <span class="${l.free ? 'link-free' : 'link-paid'}">${l.free ? "Free" : "Paid"}</span>
+          <div class="link-info"><div class="link-name">${esc(l.name)}</div><div class="link-desc">${esc(l.desc)}</div></div>
+          <span class="${l.free?"link-free":"link-paid"}">${l.free?"Free":"Paid"}</span>
         </a>`).join("")}
     </div>
-    <div class="insight" style="margin-top:0">
-      💡 <strong>Tip:</strong> Open Excalidraw and draw the architecture from memory before the viva — if you can draw it, you understand it.
-    </div>`;
+    <div class="insight" style="margin-top:0">💡 <strong>Tip:</strong> Open Excalidraw and draw the architecture from memory before the viva — if you can draw it, you understand it.</div>`;
 }
 
-// ── Ask Groq ──────────────────────────────────────────────────────────────────
-function autoResize(el) {
-  el.style.height = "auto";
-  el.style.height = Math.min(el.scrollHeight, 120) + "px";
-}
+// ── Ask ───────────────────────────────────────────────────────────────────────
+function autoResize(el){el.style.height="auto";el.style.height=Math.min(el.scrollHeight,120)+"px";}
 
-async function sendAsk() {
-  const input = document.getElementById("ask-input");
-  const q = input.value.trim();
-  if (!q) return;
-  input.value = ""; input.style.height = "auto";
-
-  const t = CUR[state.idx];
-  const prior = getPriorContext(state.idx);
-  const priorStr = prior.length ? ` Student has previously learned: ${prior.map(p=>p.name).join(", ")}.` : "";
-
-  if (!state.askHistory.length) {
-    state.askHistory.push({
-      role:"user",
-      content:`Topic: "${t[0]}". Summary: "${state.lesson?.tldr||''}".${priorStr} Answer in 3-4 concise sentences with a concrete example. Question: ${q}`
-    });
+async function sendAsk(){
+  const input=document.getElementById("ask-input");
+  const q=input.value.trim(); if(!q) return;
+  input.value=""; input.style.height="auto";
+  const t=CUR[state.idx];
+  const prior=getPrior(state.idx);
+  if(!state.askHistory.length){
+    state.askHistory.push({role:"user",content:`Topic: "${t[0]}". Summary: "${state.lesson?.tldr||""}".${prior.length?" Prior topics: "+prior.map(p=>p.name).join(", ")+".":""} Answer in 4-5 plain English sentences with a real example. Question: ${q}`});
   } else {
-    state.askHistory.push({ role:"user", content:q });
+    state.askHistory.push({role:"user",content:q});
   }
-
-  const thread = document.getElementById("ask-thread");
-  const tid = "think-" + Date.now();
-  thread.innerHTML += `<div class="ask-msg-user">${esc(q)}</div>`;
-  thread.innerHTML += `<div class="ask-msg-thinking" id="${tid}"><span class="spinner-sm"></span> Thinking…</div>`;
-  thread.lastElementChild.scrollIntoView({ behavior:"smooth", block:"end" });
-
-  const btn = document.getElementById("ask-send-btn");
-  btn.disabled = true;
-  try {
-    const reply = await callAIText(state.askHistory);
-    state.askHistory.push({ role:"assistant", content:reply });
+  const thread=document.getElementById("ask-thread");
+  const tid="t"+Date.now();
+  thread.innerHTML+=`<div class="ask-msg-user">${esc(q)}</div>`;
+  thread.innerHTML+=`<div class="ask-thinking" id="${tid}"><span class="spinner-sm"></span> Thinking…</div>`;
+  thread.lastElementChild.scrollIntoView({behavior:"smooth",block:"end"});
+  document.getElementById("ask-send-btn").disabled=true;
+  try{
+    const reply=await callAIText(state.askHistory);
+    state.askHistory.push({role:"assistant",content:reply});
     document.getElementById(tid)?.remove();
-    thread.innerHTML += `<div class="ask-msg-ai">${esc(reply)}</div>`;
-  } catch(e) {
+    thread.innerHTML+=`<div class="ask-msg-ai">${esc(reply)}</div>`;
+  }catch(e){
     document.getElementById(tid)?.remove();
-    thread.innerHTML += `<div class="ask-msg-ai" style="color:#dc2626">${esc(e.message)}</div>`;
-  } finally {
-    btn.disabled = false;
-    thread.lastElementChild?.scrollIntoView({ behavior:"smooth", block:"end" });
+    thread.innerHTML+=`<div class="ask-msg-ai" style="color:#dc2626">${esc(e.message)}</div>`;
+  }finally{
+    document.getElementById("ask-send-btn").disabled=false;
+    thread.lastElementChild?.scrollIntoView({behavior:"smooth",block:"end"});
   }
 }
-
-document.addEventListener("keydown", e => {
-  if (e.target.id === "ask-input" && e.key === "Enter" && !e.shiftKey) {
-    e.preventDefault(); sendAsk();
-  }
-});
+document.addEventListener("keydown",e=>{if(e.target.id==="ask-input"&&e.key==="Enter"&&!e.shiftKey){e.preventDefault();sendAsk();}});
 
 // ── Viva ──────────────────────────────────────────────────────────────────────
-function startViva() {
+function startViva(){
   showView("viva");
-  document.getElementById("viva-question").textContent = state.question;
-  document.getElementById("viva-done-pill").style.display = state.done.includes(state.idx) ? "inline-flex" : "none";
+  document.getElementById("viva-question").textContent=state.question;
+  document.getElementById("viva-done-pill").style.display=state.done.includes(state.idx)?"inline-flex":"none";
   renderVivaInput();
 }
-
-function renderVivaInput() {
-  document.getElementById("viva-content").innerHTML = `
+function renderVivaInput(){
+  document.getElementById("viva-content").innerHTML=`
     <textarea id="ans-input" placeholder="Explain in your own words — plain English is fine." oninput="updateSubmit()"></textarea>
     <button class="btn btn-primary" id="submit-btn" onclick="submitAnswer()" disabled>Submit answer →</button>`;
 }
-
-function updateSubmit() {
-  const v = document.getElementById("ans-input")?.value || "";
-  const b = document.getElementById("submit-btn");
-  if (b) b.disabled = v.trim().length < 10;
+function updateSubmit(){
+  const v=document.getElementById("ans-input")?.value||"";
+  const b=document.getElementById("submit-btn");
+  if(b) b.disabled=v.trim().length<10;
 }
-
-async function submitAnswer() {
-  const ans = document.getElementById("ans-input").value;
-  const t = CUR[state.idx];
-  document.getElementById("viva-content").innerHTML = spinnerHTML("Evaluating your answer…");
-  try {
-    const data = await callAI(
+async function submitAnswer(){
+  const ans=document.getElementById("ans-input").value;
+  const t=CUR[state.idx];
+  document.getElementById("viva-content").innerHTML=spinnerHTML("Evaluating your answer…");
+  try{
+    const data=await callAI(
 `Evaluate this system design answer. Be a fair, direct FAANG-style interviewer.
 Topic: "${t[0]}"
-TL;DR: "${state.lesson?.tldr||''}"
-Key insight: "${state.lesson?.key_insight||''}"
+TL;DR: "${state.lesson?.tldr||""}"
+Key insight: "${state.lesson?.key_insight||""}"
 Question: "${state.question}"
 Answer: "${ans}"
+Return ONLY valid JSON (no markdown):
+{"passed":true or false,"score":"Excellent" or "Great" or "Good" or "Partially Correct" or "Needs Work","feedback":"2 sentences: what they got right and where they fell short","correct_answer":"2 sentences starting with The key insight is... — ONLY if passed is false"}
+Pass if student shows WHY, not just WHAT.`, 600);
 
-Return ONLY this JSON (no markdown):
-{
-  "passed": true or false,
-  "score": "Excellent" or "Great" or "Good" or "Partially Correct" or "Needs Work",
-  "feedback": "2 sentences — what they got right and where understanding broke down",
-  "correct_answer": "2 sentences starting with The key insight is... — ONLY if passed is false"
-}
-Pass if student shows WHY, not just WHAT. Valid JSON only.`, 600);
-
-    if (data.passed && !state.done.includes(state.idx)) {
-      state.done = [...state.done, state.idx];
-      saveState();
-    }
-    const isLast = state.idx >= CUR.length - 1;
-    let html = `<div class="${data.passed?"res-pass":"res-fail"}">
+    if(data.passed&&!state.done.includes(state.idx)){state.done=[...state.done,state.idx];saveState();}
+    const isLast=state.idx>=CUR.length-1;
+    let html=`<div class="${data.passed?"res-pass":"res-fail"}">
       <div class="res-title ${data.passed?"pass":"fail"}">${data.passed?"✅ "+data.score+" — Passed!":"❌ "+data.score+" — Try again"}</div>
       <div class="feedback">${esc(data.feedback)}</div>
     </div>`;
-    if (!data.passed && data.correct_answer)
-      html += `<div class="card"><div class="lbl">Ideal answer</div><div class="feedback">${esc(data.correct_answer)}</div></div>`;
-    if (data.passed) {
-      html += `<button class="btn btn-success" onclick="nextTopic()">${isLast?"🏆 Complete the curriculum!":"Next topic →"}</button>`;
-      html += `<button class="btn btn-outline" onclick="goLesson()" style="margin-top:6px">← Back to lesson</button>`;
-    } else {
-      html += `<button class="btn btn-danger" onclick="retryViva()">↩ Try again</button>`;
-      html += `<button class="btn btn-outline" onclick="goLesson()" style="margin-top:6px">← Review lesson first</button>`;
+    if(!data.passed&&data.correct_answer) html+=`<div class="card"><div class="lbl">Ideal answer</div><div class="feedback">${esc(data.correct_answer)}</div></div>`;
+    if(data.passed){
+      html+=`<button class="btn btn-success" onclick="nextTopic()">${isLast?"🏆 Complete the curriculum!":"Next topic →"}</button>`;
+      html+=`<button class="btn btn-outline" onclick="goLesson()" style="margin-top:6px">← Back to lesson</button>`;
+    }else{
+      html+=`<button class="btn btn-danger" onclick="retryViva()">↩ Try again</button>`;
+      html+=`<button class="btn btn-outline" onclick="goLesson()" style="margin-top:6px">← Review lesson first</button>`;
     }
-    document.getElementById("viva-content").innerHTML = html;
-    const dp = document.getElementById("lesson-done-pill");
-    if (dp) dp.style.display = state.done.includes(state.idx) ? "inline-flex" : "none";
-  } catch(e) {
-    document.getElementById("viva-content").innerHTML = errorHTML(e.message, "submitAnswer()");
-  }
+    document.getElementById("viva-content").innerHTML=html;
+    const dp=document.getElementById("lesson-done-pill");
+    if(dp) dp.style.display=state.done.includes(state.idx)?"inline-flex":"none";
+  }catch(e){document.getElementById("viva-content").innerHTML=errorHTML(e.message,"submitAnswer()");}
 }
-
-function retryViva() { renderVivaInput(); }
-
-function nextTopic() {
-  let ni = state.idx + 1;
-  while (ni < CUR.length && state.done.includes(ni)) ni++;
-  if (ni >= CUR.length) ni = Math.min(state.idx + 1, CUR.length - 1);
-  state.idx = ni; saveState(); goHome();
+function retryViva(){renderVivaInput();}
+function nextTopic(){
+  let ni=state.idx+1;
+  while(ni<CUR.length&&state.done.includes(ni))ni++;
+  if(ni>=CUR.length)ni=Math.min(state.idx+1,CUR.length-1);
+  state.idx=ni; saveState(); goHome();
 }
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
-function spinnerHTML(msg) {
-  return `<div class="spinner-wrap"><div class="spinner"></div><div class="spinner-msg">${msg}</div></div>`;
+function spinnerHTML(msg){return `<div class="spinner-wrap"><div class="spinner"></div><div class="spinner-msg">${msg}</div></div>`;}
+function errorHTML(msg,fn){return `<div class="err-box"><div class="err-title">Something went wrong</div><div class="err-msg">${esc(msg)}</div><button class="btn btn-outline" onclick="${fn}">Try again</button></div>`;}
+function esc(s){if(!s)return "";return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");}
+
+// ── Debug ─────────────────────────────────────────────────────────────────────
+let debugOpen = false;
+function toggleDebug() { debugOpen=!debugOpen; document.getElementById("debug-panel").classList.toggle("open",debugOpen); }
+
+function dlog(msg, type="info") {
+  const panel = document.getElementById("debug-panel");
+  if (!panel) return;
+  const ts = new Date().toTimeString().slice(0,8);
+  const line = document.createElement("div");
+  line.className = `debug-line debug-${type}`;
+  line.textContent = `[${ts}] ${msg}`;
+  panel.appendChild(line);
+  panel.scrollTop = panel.scrollHeight;
+  console.log(`[DEBUG] ${msg}`);
 }
-function errorHTML(msg, fn) {
-  return `<div class="err-box"><div class="err-title">Something went wrong</div>
-    <div class="err-msg">${esc(msg)}</div>
-    <button class="btn btn-outline" onclick="${fn}">Try again</button></div>`;
-}
-function esc(s) {
-  if (!s) return "";
-  return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+
+// Ping health check on load
+async function pingServer() {
+  try {
+    const r = await fetch("/api/ping");
+    const d = await r.json();
+    dlog(`Ping OK — has_groq_key:${d.has_groq_key} env:${d.env} node:${d.node_version}`, d.has_groq_key ? "ok" : "err");
+    if (!d.has_groq_key) dlog("⚠️  GROQ_API_KEY is NOT set in Vercel env vars!", "err");
+  } catch(e) {
+    dlog(`Ping FAILED: ${e.message}`, "err");
+  }
 }
 
 loadState();
 renderHome();
+pingServer();
 </script>
+<!-- Debug panel (tap 🐛 to open/close) -->
+<button class="debug-toggle" onclick="toggleDebug()">🐛</button>
+<div class="debug-panel" id="debug-panel"></div>
+
 </body>
 </html>
