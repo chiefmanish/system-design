@@ -3,30 +3,18 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-  <meta name="theme-color" content="#ffffff" />
   <title>System Design Daily</title>
-  <script src="https://cdn.jsdelivr.net/npm/mermaid@9/dist/mermaid.min.js"></script>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
     body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #f5f5f4; color: #111; min-height: 100vh; }
-
-    /* Layout */
-    .nav { position: sticky; top: 0; z-index: 10; background: #fff; border-bottom: 1px solid #e5e5e5; padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; }
+    .nav { position: sticky; top: 0; z-index: 10; background: #fff; border-bottom: 1px solid #e5e5e5; padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; }
     .nav-title { font-size: 15px; font-weight: 700; }
     .nav-sub { font-size: 12px; color: #aaa; }
-    .back-btn { background: none; border: none; font-size: 14px; color: #888; cursor: pointer; padding: 4px 0; font-family: inherit; display: flex; align-items: center; gap: 4px; }
+    .back-btn { background: none; border: none; font-size: 14px; color: #888; cursor: pointer; padding: 4px 0; font-family: inherit; }
     .body { padding: 14px 16px; max-width: 480px; margin: 0 auto; }
-
-    /* Cards */
     .card { background: #fff; border-radius: 14px; padding: 15px 16px; margin-bottom: 10px; border: 1px solid #ebebeb; }
-
-    /* Progress */
     .prog-wrap { height: 5px; background: #f0f0f0; border-radius: 99px; overflow: hidden; margin-bottom: 14px; }
     .prog-fill { height: 100%; background: #111; border-radius: 99px; transition: width .5s; }
-
-    /* Badges */
     .badge { display: inline-block; font-size: 10px; font-weight: 700; padding: 3px 9px; border-radius: 99px; }
     .badge-Beginner     { background: #dcfce7; color: #166534; }
     .badge-Intermediate { background: #fef9c3; color: #854d0e; }
@@ -34,121 +22,120 @@
     .badge-Pro          { background: #f3e8ff; color: #6b21a8; }
     .badge-Case         { background: #dbeafe; color: #1e40af; }
     .tag { display: inline-block; font-size: 10px; font-weight: 500; padding: 3px 8px; border-radius: 99px; background: #f3f4f6; color: #888; margin-left: 4px; }
-
-    /* Buttons */
-    .btn { width: 100%; padding: 15px; border-radius: 12px; font-size: 15px; font-weight: 700; cursor: pointer; font-family: inherit; border: none; margin-top: 10px; display: flex; align-items: center; justify-content: center; gap: 6px; }
+    .btn { width: 100%; padding: 14px; border-radius: 12px; font-size: 14px; font-weight: 700; cursor: pointer; font-family: inherit; border: none; margin-top: 10px; display: flex; align-items: center; justify-content: center; gap: 6px; }
     .btn:active { transform: scale(0.98); }
     .btn-primary { background: #111; color: #fff; }
     .btn-outline { background: #fff; color: #111; border: 1.5px solid #ddd !important; font-weight: 600; }
     .btn-success { background: #15803d; color: #fff; }
-    .btn-danger  { background: #fff; color: #dc2626; border: 1.5px solid #fca5a5 !important; font-weight: 600; }
-    .btn-sm { padding: 9px 14px; font-size: 13px; font-weight: 600; width: auto; border-radius: 10px; }
+    .btn-danger  { background: #fff; color: #dc2626; border: 1.5px solid #fca5a5 !important; }
     .btn:disabled { opacity: 0.4; cursor: not-allowed; }
-
-    /* Nav arrows */
     .nav-arrows { display: flex; align-items: center; gap: 6px; }
-    .arrow-btn { background: #f5f5f4; border: 1px solid #e5e5e5; border-radius: 8px; padding: 5px 10px; font-size: 14px; cursor: pointer; font-family: inherit; color: #555; font-weight: 600; }
-    .arrow-btn:disabled { opacity: 0.3; cursor: not-allowed; }
-    .arrow-btn:not(:disabled):active { background: #eee; }
-
-    /* Topic rows */
+    .arrow-btn { background: #f5f5f4; border: 1px solid #e5e5e5; border-radius: 8px; padding: 5px 11px; font-size: 15px; cursor: pointer; font-family: inherit; color: #555; font-weight: 700; }
+    .arrow-btn:disabled { opacity: 0.25; cursor: not-allowed; }
     .t-row { display: flex; align-items: center; gap: 10px; padding: 9px 0; border-bottom: 1px solid #f5f5f5; cursor: pointer; }
     .t-row:last-child { border-bottom: none; }
     .t-row:hover .t-name { color: #111; }
     .t-num { width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; flex-shrink: 0; border: 1px solid #e5e5e5; color: #aaa; background: #f5f5f5; }
     .t-num.done    { background: #dcfce7; border-color: #86efac; color: #166534; }
     .t-num.current { background: #111; border-color: #111; color: #fff; }
-    .t-name { flex: 1; min-width: 0; font-size: 13px; color: #444; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; transition: color .15s; }
+    .t-name { flex: 1; min-width: 0; font-size: 13px; color: #444; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .t-name.done    { color: #bbb; text-decoration: line-through; }
     .t-name.current { color: #111; font-weight: 600; }
-
-    /* Labels */
     .lbl { font-size: 10px; font-weight: 700; color: #bbb; letter-spacing: .08em; text-transform: uppercase; margin-bottom: 7px; }
-
-    /* Tabs */
-    .tabs { display: flex; gap: 4px; margin-bottom: 12px; background: #f5f5f4; border-radius: 10px; padding: 4px; }
-    .tab { flex: 1; padding: 8px 6px; border: none; background: none; border-radius: 8px; font-size: 12px; font-weight: 600; color: #999; cursor: pointer; font-family: inherit; transition: all .15s; }
+    /* Single tab: just Practice */
+    .tabs { display: flex; gap: 3px; margin-bottom: 12px; background: #f0f0ef; border-radius: 10px; padding: 3px; }
+    .tab { flex: 1; padding: 7px 4px; border: none; background: none; border-radius: 8px; font-size: 11px; font-weight: 600; color: #999; cursor: pointer; font-family: inherit; transition: all .15s; }
     .tab.active { background: #fff; color: #111; box-shadow: 0 1px 3px rgba(0,0,0,.08); }
     .tab-panel { display: none; }
     .tab-panel.active { display: block; }
-
-    /* Lesson content */
+    /* Lesson */
     .tldr { background: #f7f7f6; border-radius: 10px; padding: 12px 14px; margin-bottom: 14px; font-size: 14px; line-height: 1.7; color: #333; }
-    .sec  { padding-bottom: 13px; margin-bottom: 13px; border-bottom: 1px solid #f3f3f3; }
+    .sec { padding-bottom: 13px; margin-bottom: 13px; border-bottom: 1px solid #f3f3f3; }
     .sec:last-of-type { border-bottom: none; padding-bottom: 0; margin-bottom: 0; }
     .sec-num { color: #ddd; font-size: 11px; margin-right: 6px; }
     .sec-heading { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
     .sec-body { font-size: 14px; line-height: 1.7; color: #555; }
     .eg-box { background: #f7f7f6; border-left: 3px solid #ddd; border-radius: 0 8px 8px 0; padding: 9px 12px; margin-top: 8px; font-size: 13px; color: #777; line-height: 1.6; }
+    /* Inline cloud block — woven into each section */
+    .cloud-inline { background: #f0f7ff; border-radius: 10px; padding: 11px 13px; margin-top: 10px; border: 1px solid #bfdbfe; }
+    .cloud-inline-title { font-size: 10px; font-weight: 700; color: #3b82f6; letter-spacing: .06em; text-transform: uppercase; margin-bottom: 8px; }
+    .cloud-row { display: flex; gap: 8px; margin-bottom: 6px; align-items: flex-start; }
+    .cloud-row:last-child { margin-bottom: 0; }
+    .cloud-badge { font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 5px; white-space: nowrap; flex-shrink: 0; margin-top: 1px; }
+    .cloud-azure { background: #dbeafe; color: #1d4ed8; }
+    .cloud-aws   { background: #ffedd5; color: #c2410c; }
+    .cloud-db    { background: #fef3c7; color: #b45309; }
+    .cloud-row-text { font-size: 12px; color: #555; line-height: 1.55; }
+    .cloud-snippet { background: #1e1e2e; border-radius: 7px; padding: 8px 11px; margin-top: 6px; font-size: 11px; font-family: monospace; color: #cdd6f4; line-height: 1.6; overflow-x: auto; white-space: pre; }
+    /* Platform comparison table */
+    .compare-wrap { margin-top: 10px; overflow-x: auto; }
+    .compare-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+    .compare-table th { background: #f5f5f4; padding: 7px 10px; text-align: left; font-size: 10px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: .05em; border-bottom: 1px solid #e5e5e5; }
+    .compare-table td { padding: 8px 10px; border-bottom: 1px solid #f3f3f3; color: #444; vertical-align: top; line-height: 1.5; }
+    .compare-table tr:last-child td { border-bottom: none; }
+    .compare-table td:first-child { font-weight: 600; white-space: nowrap; }
+    /* Prior topics breadcrumb */
+    .prior-wrap { background: #f7f7f6; border-radius: 10px; padding: 10px 13px; margin-bottom: 12px; }
+    .prior-title { font-size: 10px; font-weight: 700; color: #bbb; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 6px; }
+    .prior-chips { display: flex; gap: 6px; flex-wrap: wrap; }
+    .prior-chip { font-size: 11px; color: #555; background: #fff; border: 1px solid #e5e5e5; border-radius: 6px; padding: 3px 8px; }
+    /* Insight */
+    .insight { background: #eff6ff; border-radius: 10px; padding: 12px 14px; margin-top: 4px; font-size: 14px; line-height: 1.7; color: #1d4ed8; }
+    /* Diagram */
+    .diagram-wrap { background: #fafafa; border-radius: 10px; padding: 14px; margin-bottom: 10px; overflow-x: auto; border: 1px solid #ebebeb; }
+    .diagram-wrap svg { max-width: 100%; height: auto; }
+    /* co-box */
     .co-box { background: #f7f7f6; border-radius: 10px; padding: 12px 13px; }
     .co-name { font-size: 13px; font-weight: 700; margin-bottom: 4px; }
     .co-desc { font-size: 13px; color: #666; line-height: 1.65; }
-    .insight { background: #eff6ff; border-radius: 10px; padding: 12px 14px; margin-top: 4px; font-size: 14px; line-height: 1.7; color: #1d4ed8; }
-
-    /* Cloud design example */
-    .cloud-card { background: #f7f7f6; border-radius: 10px; padding: 13px 14px; margin-bottom: 10px; border: 1px solid #e8e8e8; }
-    .cloud-header { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
-    .cloud-logo { font-size: 18px; }
-    .cloud-name { font-size: 13px; font-weight: 700; color: #111; }
-    .cloud-service { font-size: 11px; color: #888; margin-left: auto; background: #fff; border: 1px solid #e5e5e5; padding: 2px 8px; border-radius: 99px; }
-    .cloud-body { font-size: 13px; line-height: 1.7; color: #555; }
-    .cloud-snippet { background: #1e1e2e; border-radius: 8px; padding: 10px 12px; margin-top: 8px; font-size: 11px; font-family: monospace; color: #cdd6f4; line-height: 1.6; overflow-x: auto; white-space: pre; }
-
-    /* Ask Groq */
+    /* Practice links */
+    .link-row { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid #f5f5f5; text-decoration: none; }
+    .link-row:last-child { border-bottom: none; }
+    .link-icon { font-size: 18px; flex-shrink: 0; width: 34px; height: 34px; background: #f5f5f4; border-radius: 8px; display: flex; align-items: center; justify-content: center; }
+    .link-info { flex: 1; min-width: 0; }
+    .link-name { font-size: 13px; font-weight: 700; color: #111; }
+    .link-desc { font-size: 11px; color: #aaa; margin-top: 2px; }
+    .link-free { background: #dcfce7; color: #166534; font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 99px; flex-shrink: 0; }
+    .link-paid { background: #fef9c3; color: #854d0e; font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 99px; flex-shrink: 0; }
+    /* Ask box */
     .ask-box { border: 1.5px solid #e5e5e5; border-radius: 14px; padding: 14px 16px; background: #fff; margin-bottom: 10px; }
-    .ask-header { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
-    .ask-icon { font-size: 16px; }
     .ask-title { font-size: 13px; font-weight: 700; color: #111; }
-    .ask-input-row { display: flex; gap: 8px; align-items: flex-end; }
+    .ask-input-row { display: flex; gap: 8px; align-items: flex-end; margin-top: 10px; }
     .ask-input { flex: 1; padding: 10px 12px; border: 1.5px solid #e5e5e5; border-radius: 10px; font-size: 13px; font-family: inherit; color: #111; resize: none; min-height: 42px; max-height: 120px; line-height: 1.5; outline: none; background: #fafafa; }
     .ask-input:focus { border-color: #111; background: #fff; }
     .ask-send { background: #111; color: #fff; border: none; border-radius: 10px; padding: 10px 14px; font-size: 13px; font-weight: 700; cursor: pointer; font-family: inherit; white-space: nowrap; flex-shrink: 0; }
     .ask-send:disabled { opacity: 0.4; cursor: not-allowed; }
     .ask-thread { margin-top: 12px; display: flex; flex-direction: column; gap: 8px; }
-    .ask-msg-user { background: #111; color: #fff; border-radius: 10px 10px 2px 10px; padding: 9px 12px; font-size: 13px; line-height: 1.6; align-self: flex-end; max-width: 90%; }
-    .ask-msg-ai { background: #f0f4ff; color: #1e3a8a; border-radius: 10px 10px 10px 2px; padding: 9px 12px; font-size: 13px; line-height: 1.6; align-self: flex-start; max-width: 95%; }
-    .ask-msg-thinking { color: #aaa; font-size: 12px; font-style: italic; padding: 4px 0; }
-
+    .ask-msg-user { background: #111; color: #fff; border-radius: 10px 10px 2px 10px; padding: 9px 12px; font-size: 13px; line-height: 1.6; align-self: flex-end; max-width: 90%; word-break: break-word; }
+    .ask-msg-ai { background: #f0f4ff; color: #1e3a8a; border-radius: 10px 10px 10px 2px; padding: 9px 12px; font-size: 13px; line-height: 1.6; align-self: flex-start; max-width: 95%; word-break: break-word; }
+    .ask-msg-thinking { color: #aaa; font-size: 12px; font-style: italic; padding: 4px 2px; display: flex; align-items: center; gap: 6px; }
+    /* Rate limit */
+    .rate-banner { background: #fef9c3; border: 1px solid #fde68a; border-radius: 10px; padding: 10px 14px; font-size: 13px; color: #854d0e; margin-bottom: 10px; display: none; text-align: center; }
     /* Viva */
     .question { font-size: 15px; font-weight: 600; line-height: 1.5; color: #111; }
     textarea { width: 100%; min-height: 130px; resize: vertical; font-size: 15px; padding: 13px; border-radius: 12px; border: 1.5px solid #e5e5e5; font-family: inherit; color: #111; line-height: 1.6; margin-top: 10px; background: #fff; outline: none; }
     textarea:focus { border-color: #111; }
-
-    /* Results */
     .res-pass { background: #f0fdf4; border-radius: 12px; padding: 14px 16px; margin-bottom: 10px; border: 1px solid #86efac; }
     .res-fail { background: #fef2f2; border-radius: 12px; padding: 14px 16px; margin-bottom: 10px; border: 1px solid #fca5a5; }
     .res-title { font-size: 15px; font-weight: 700; }
     .res-title.pass { color: #15803d; }
     .res-title.fail { color: #dc2626; }
     .feedback { font-size: 14px; line-height: 1.7; color: #555; margin-top: 6px; }
-
-    /* Error */
     .err-box { background: #fef2f2; border-radius: 12px; padding: 16px; margin-bottom: 10px; border: 1px solid #fca5a5; }
     .err-title { font-size: 14px; font-weight: 700; color: #dc2626; margin-bottom: 6px; }
     .err-msg { font-size: 11px; color: #999; font-family: monospace; word-break: break-all; margin-bottom: 12px; }
-
-    /* Spinner */
-    .spinner-wrap { display: flex; flex-direction: column; align-items: center; padding: 56px 0; gap: 12px; }
-    .spinner { width: 28px; height: 28px; border: 3px solid #eee; border-top-color: #111; border-radius: 50%; animation: spin .7s linear infinite; }
-    .spinner-msg { font-size: 13px; color: #aaa; }
-    .spinner-sm { width: 14px; height: 14px; border: 2px solid #eee; border-top-color: #888; border-radius: 50%; animation: spin .7s linear infinite; display: inline-block; }
+    .spinner-wrap { display: flex; flex-direction: column; align-items: center; padding: 48px 0; gap: 12px; }
+    .spinner { width: 26px; height: 26px; border: 3px solid #eee; border-top-color: #111; border-radius: 50%; animation: spin .7s linear infinite; }
+    .spinner-sm { width: 12px; height: 12px; border: 2px solid #ddd; border-top-color: #888; border-radius: 50%; animation: spin .7s linear infinite; display: inline-block; }
+    .spinner-msg { font-size: 13px; color: #aaa; text-align: center; }
     @keyframes spin { to { transform: rotate(360deg); } }
-    .diagram-wrap { background: #f7f7f6; border-radius: 10px; padding: 14px 10px; margin-bottom: 10px; overflow-x: auto; }
-    .diagram-wrap .mermaid { min-width: 260px; }
-    .diagram-wrap svg { max-width: 100%; height: auto; }
-
-    /* Views */
     .view { display: none; }
     .view.active { display: block; }
-
-    /* Trophy */
     .trophy { text-align: center; padding: 36px 16px; }
     .trophy-icon { font-size: 48px; margin-bottom: 12px; }
     .trophy-title { font-size: 20px; font-weight: 700; margin-bottom: 6px; }
     .trophy-sub { font-size: 14px; color: #888; }
-
-    /* Done pill on viva */
-    .done-pill { display: inline-flex; align-items: center; gap: 4px; background: #dcfce7; color: #166534; font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: 99px; margin-left: 8px; }
+    .done-pill { display: inline-flex; align-items: center; gap: 4px; background: #dcfce7; color: #166534; font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: 99px; }
   </style>
 </head>
 <body>
@@ -161,7 +148,6 @@
   </div>
   <div class="body">
     <div class="prog-wrap"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
-
     <div class="card" id="today-card">
       <div class="lbl">Continue where you left off</div>
       <div id="today-title" style="font-size:17px;font-weight:700;line-height:1.35;margin-bottom:8px"></div>
@@ -169,15 +155,13 @@
       <div id="today-sub" style="font-size:12px;color:#ccc;margin-bottom:2px"></div>
       <button class="btn btn-primary" onclick="startLesson(state.idx)">▶ Start lesson</button>
     </div>
-
     <div id="trophy-card" class="card trophy" style="display:none">
       <div class="trophy-icon">🏆</div>
       <div class="trophy-title">Curriculum complete!</div>
       <div class="trophy-sub">You've mastered all 41 topics.</div>
     </div>
-
     <div class="card">
-      <div class="lbl">Curriculum — click any topic to jump to it</div>
+      <div class="lbl">Curriculum — tap any topic to open it</div>
       <div id="curriculum-list"></div>
       <button class="btn btn-outline" id="show-all-btn" onclick="toggleAll()" style="margin-top:8px">See all 41 topics</button>
     </div>
@@ -195,36 +179,40 @@
     </div>
   </div>
   <div class="body">
-    <div style="margin-bottom:12px;display:flex;align-items:center;flex-wrap:wrap;gap:6px">
-      <div id="lesson-title" style="font-size:17px;font-weight:700;line-height:1.35;width:100%"></div>
-      <div id="lesson-badges"></div>
-      <span id="lesson-done-pill" style="display:none" class="done-pill">✓ Done</span>
+    <div style="margin-bottom:12px">
+      <div id="lesson-title" style="font-size:17px;font-weight:700;line-height:1.35;margin-bottom:8px"></div>
+      <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">
+        <div id="lesson-badges"></div>
+        <span id="lesson-done-pill" style="display:none" class="done-pill">✓ Done</span>
+      </div>
     </div>
-
-    <!-- Tabs -->
+    <div class="rate-banner" id="lesson-rate-banner">⏳ Too many requests — waiting a moment…</div>
+    <!-- Prior topics breadcrumb -->
+    <div id="prior-wrap" style="display:none" class="prior-wrap">
+      <div class="prior-title">Building on what you've learned</div>
+      <div id="prior-chips" class="prior-chips"></div>
+    </div>
+    <!-- Two tabs: Lesson + Practice -->
     <div class="tabs">
-      <button class="tab active" onclick="switchTab('lesson','learn')">📖 Learn</button>
-      <button class="tab" onclick="switchTab('lesson','cloud')">☁️ Cloud Examples</button>
+      <button class="tab active" id="tab-lesson" onclick="switchTab('lesson')">📖 Lesson</button>
+      <button class="tab"        id="tab-practice" onclick="switchTab('practice')">🎯 Practice</button>
     </div>
+    <div id="panel-lesson" class="tab-panel active"><div id="lesson-content"></div></div>
+    <div id="panel-practice" class="tab-panel"><div id="practice-content"></div></div>
 
-    <div id="lesson-tab-learn" class="tab-panel active">
-      <div id="lesson-content"></div>
-    </div>
-    <div id="lesson-tab-cloud" class="tab-panel">
-      <div id="cloud-content"></div>
-    </div>
-
-    <!-- Ask Groq — always visible below tabs -->
-    <div class="ask-box" id="ask-box">
-      <div class="ask-header">
-        <span class="ask-icon">💬</span>
+    <!-- Ask Groq — always visible -->
+    <div class="ask-box">
+      <div style="display:flex;align-items:center;gap:8px">
+        <span style="font-size:16px">💬</span>
         <span class="ask-title">Ask about this topic</span>
       </div>
       <div class="ask-input-row">
-        <textarea class="ask-input" id="ask-input" rows="1" placeholder="Any doubt? e.g. 'How does this differ from X?'" oninput="autoResize(this)"></textarea>
+        <textarea class="ask-input" id="ask-input" rows="1"
+          placeholder="Any doubt? e.g. 'How is this different from X?'"
+          oninput="autoResize(this)"></textarea>
         <button class="ask-send" id="ask-send-btn" onclick="sendAsk()">Ask</button>
       </div>
-      <div id="ask-thread"></div>
+      <div id="ask-thread" class="ask-thread"></div>
     </div>
   </div>
 </div>
@@ -292,61 +280,102 @@ const CUR = [
   ["Designing AI-Powered Apps at Scale","Pro","AI Systems"],
 ];
 
-// State
-let state = {
-  idx: 0,
-  done: [],
-  showAll: false,
-  lesson: null,
-  question: "",
-  cloudLoaded: false,
-  askHistory: [],   // [{role, content}] per topic — reset on topic change
+// Practice resources
+const PRACTICE_LINKS = {
+  default: [
+    { name:"Excalidraw", desc:"Free whiteboard — sketch your own architecture diagram", url:"https://excalidraw.com", icon:"✏️", free:true },
+    { name:"System Design Primer", desc:"Open-source GitHub guide — completely free", url:"https://github.com/donnemartin/system-design-primer", icon:"⭐", free:true },
+    { name:"ByteByteGo", desc:"Visual explainers — free articles, paid book", url:"https://bytebytego.com", icon:"📘", free:false },
+    { name:"Pramp", desc:"Free mock system design interviews with peers", url:"https://www.pramp.com", icon:"🎤", free:true },
+    { name:"High Scalability", desc:"Real architecture case studies — free", url:"http://highscalability.com", icon:"🔬", free:true },
+  ],
+  database: [
+    { name:"DB-Fiddle", desc:"Free SQL playground", url:"https://www.db-fiddle.com", icon:"🗄️", free:true },
+    { name:"Use The Index, Luke", desc:"Free SQL indexing deep dive", url:"https://use-the-index-luke.com", icon:"📊", free:true },
+  ],
+  cache: [
+    { name:"Redis University", desc:"Free Redis courses", url:"https://university.redis.com", icon:"⚡", free:true },
+  ],
+  kafka: [
+    { name:"Confluent Learn", desc:"Free Kafka tutorials and labs", url:"https://developer.confluent.io/learn-kafka/", icon:"📨", free:true },
+  ],
+  security: [
+    { name:"JWT.io", desc:"Free JWT decoder and docs", url:"https://jwt.io", icon:"🔐", free:true },
+    { name:"OAuth 2.0 Simplified", desc:"Free OAuth flow guide", url:"https://www.oauth.com", icon:"🔑", free:true },
+  ],
+  microservice: [
+    { name:"Martin Fowler's Blog", desc:"Free microservices patterns deep dives", url:"https://martinfowler.com/microservices/", icon:"🏗️", free:true },
+  ],
+  ai: [
+    { name:"LangChain Docs", desc:"Free docs for LLM-powered systems", url:"https://docs.langchain.com", icon:"🤖", free:true },
+  ],
+  "case study": [
+    { name:"Architecture Notes", desc:"Free system design breakdowns", url:"https://architecturenotes.co", icon:"📝", free:true },
+  ],
 };
 
-// Persist
+// State
+let state = {
+  idx: 0, done: [], showAll: false,
+  lesson: null, question: "",
+  practiceLoaded: false,
+  askHistory: [],
+  // lesson tldr cache: {idx -> tldr} so we can give prior context
+  tldrCache: {},
+};
+
+// Request queue — prevents 429s from rapid navigation
+const queue = { running: false, items: [] };
+function enqueue(fn) {
+  return new Promise((resolve, reject) => {
+    queue.items.push({ fn, resolve, reject });
+    runQueue();
+  });
+}
+async function runQueue() {
+  if (queue.running || !queue.items.length) return;
+  queue.running = true;
+  const { fn, resolve, reject } = queue.items.shift();
+  try { resolve(await fn()); } catch(e) { reject(e); }
+  finally { queue.running = false; setTimeout(runQueue, 350); }
+}
+
 function saveState() {
-  localStorage.setItem("syd-state", JSON.stringify({ idx: state.idx, done: state.done }));
+  localStorage.setItem("syd-v5", JSON.stringify({
+    idx: state.idx, done: state.done, tldrCache: state.tldrCache
+  }));
 }
 function loadState() {
   try {
-    const s = JSON.parse(localStorage.getItem("syd-state") || "{}");
-    state.idx  = s.idx  || 0;
-    state.done = s.done || [];
+    const s = JSON.parse(localStorage.getItem("syd-v5") || "{}");
+    state.idx      = s.idx       || 0;
+    state.done     = s.done      || [];
+    state.tldrCache= s.tldrCache || {};
   } catch(e) {}
 }
 
-// Badge HTML
 function badge(lvl) {
   const cls = lvl === "Case Study" ? "badge-Case" : `badge-${lvl}`;
   return `<span class="badge ${cls}">${lvl}</span>`;
 }
 
-// Render home
+// ── Home ─────────────────────────────────────────────────────────────────────
 function renderHome() {
-  const t = CUR[Math.min(state.idx, CUR.length - 1)];
   const pct = Math.round((state.done.length / CUR.length) * 100);
   const finished = state.done.length >= CUR.length;
-
   document.getElementById("prog-fill").style.width = pct + "%";
   document.getElementById("home-progress-label").textContent = `${state.done.length}/${CUR.length} · ${pct}%`;
-
   document.getElementById("today-card").style.display  = finished ? "none" : "block";
   document.getElementById("trophy-card").style.display = finished ? "block" : "none";
-
   if (!finished) {
-    // find next undone topic
-    let next = state.idx;
-    if (state.done.includes(state.idx)) {
-      next = CUR.findIndex((_, i) => !state.done.includes(i));
-      if (next === -1) next = state.idx;
-      else state.idx = next;
-    }
-    const cur = CUR[state.idx];
+    let next = CUR.findIndex((_, i) => !state.done.includes(i));
+    if (next === -1) next = 0;
+    state.idx = next;
+    const cur = CUR[next];
     document.getElementById("today-title").textContent = cur[0];
     document.getElementById("today-badges").innerHTML  = badge(cur[1]) + `<span class="tag">${cur[2]}</span>`;
-    document.getElementById("today-sub").textContent   = `Topic ${state.idx + 1} of ${CUR.length}`;
+    document.getElementById("today-sub").textContent   = `Topic ${next + 1} of ${CUR.length}`;
   }
-
   renderCurriculum();
 }
 
@@ -354,9 +383,7 @@ function renderCurriculum() {
   const limit = state.showAll ? CUR.length : 10;
   let html = "";
   for (let i = 0; i < limit; i++) {
-    const c = CUR[i];
-    const isComp = state.done.includes(i);
-    const isCur  = i === state.idx;
+    const c = CUR[i], isComp = state.done.includes(i), isCur = i === state.idx;
     const numCls = isComp ? "done" : isCur ? "current" : "";
     const nameCls = isComp ? "done" : isCur ? "current" : "";
     html += `<div class="t-row" onclick="startLesson(${i})">
@@ -366,67 +393,92 @@ function renderCurriculum() {
     </div>`;
   }
   document.getElementById("curriculum-list").innerHTML = html;
-  const btn = document.getElementById("show-all-btn");
-  btn.textContent = state.showAll ? "Show less" : `See all ${CUR.length} topics`;
+  document.getElementById("show-all-btn").textContent = state.showAll ? "Show less" : `See all ${CUR.length} topics`;
 }
+function toggleAll() { state.showAll = !state.showAll; renderCurriculum(); }
 
-function toggleAll() {
-  state.showAll = !state.showAll;
-  renderCurriculum();
-}
-
-// Tab switching
-function switchTab(view, tab) {
-  const panels = document.querySelectorAll(`#view-${view} .tab-panel`);
-  const tabs   = document.querySelectorAll(`#view-${view} .tab`);
-  panels.forEach(p => p.classList.remove("active"));
-  tabs.forEach(t => t.classList.remove("active"));
-  document.getElementById(`${view}-tab-${tab}`).classList.add("active");
-  // activate corresponding tab button
-  const tabBtns = document.querySelectorAll(`#view-${view} .tab`);
-  tabBtns.forEach(b => { if (b.textContent.toLowerCase().includes(tab === 'learn' ? 'learn' : 'cloud')) b.classList.add("active"); });
-
-  if (tab === 'cloud' && !state.cloudLoaded) {
-    fetchCloudExamples(CUR[state.idx][0]);
-  }
-}
-
-// API call — returns parsed JSON
-async function callAI(prompt) {
-  const resp = await fetch("/api/chat", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ messages: [{ role: "user", content: prompt }] }),
+// ── Tabs ─────────────────────────────────────────────────────────────────────
+function switchTab(tab) {
+  ["lesson","practice"].forEach(t => {
+    document.getElementById("tab-" + t).classList.toggle("active", t === tab);
+    document.getElementById("panel-" + t).classList.toggle("active", t === tab);
   });
-  const raw = await resp.text();
-  if (!resp.ok) throw new Error(`HTTP ${resp.status}: ${raw.slice(0, 200)}`);
-  const data = JSON.parse(raw);
-  if (data.error) throw new Error(data.error.message || JSON.stringify(data.error));
-  const text = data.choices?.[0]?.message?.content || "";
-  if (!text) throw new Error("Empty response from AI");
+  if (tab === "practice" && !state.practiceLoaded) renderPractice(CUR[state.idx]);
+}
+
+// ── API ───────────────────────────────────────────────────────────────────────
+function showRateBanner(show) {
+  const el = document.getElementById("lesson-rate-banner");
+  if (el) el.style.display = show ? "block" : "none";
+}
+
+function extractJSON(text) {
   try { return JSON.parse(text); } catch(_) {}
   const fenced = text.match(/```(?:json)?\s*([\s\S]*?)```/);
   if (fenced) { try { return JSON.parse(fenced[1].trim()); } catch(_) {} }
   const s = text.indexOf("{"), e = text.lastIndexOf("}");
   if (s !== -1 && e > s) { try { return JSON.parse(text.slice(s, e + 1)); } catch(_) {} }
-  throw new Error(`Could not parse JSON. AI said: ${text.slice(0, 300)}`);
+  // Salvage truncated JSON
+  if (s !== -1) {
+    let p = text.slice(s), braces = 0, brackets = 0, inStr = false, esc = false;
+    for (const ch of p) {
+      if (esc) { esc = false; continue; }
+      if (ch === "\\") { esc = true; continue; }
+      if (ch === '"') { inStr = !inStr; continue; }
+      if (inStr) continue;
+      if (ch === "{") braces++; else if (ch === "}") braces--;
+      else if (ch === "[") brackets++; else if (ch === "]") brackets--;
+    }
+    if (inStr) p += '"';
+    while (brackets > 0) { p += "]"; brackets--; }
+    while (braces > 0) { p += "}"; braces--; }
+    try { return JSON.parse(p); } catch(_) {}
+  }
+  throw new Error(`Could not parse JSON. AI said: ${text.slice(0, 200)}`);
 }
 
-// API call — returns raw text (for Ask Groq)
-async function callAIText(messages) {
-  const resp = await fetch("/api/chat", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ messages }),
+async function callAI(prompt, maxTokens = 2000) {
+  return enqueue(async () => {
+    const resp = await fetch("/api/chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ messages: [{ role:"user", content:prompt }], max_tokens: maxTokens }),
+    });
+    const raw = await resp.text();
+    if (resp.status === 429) {
+      showRateBanner(true);
+      setTimeout(() => showRateBanner(false), 10000);
+      throw new Error("Rate limited — please wait a moment and try again");
+    }
+    if (!resp.ok) throw new Error(`HTTP ${resp.status}: ${raw.slice(0,200)}`);
+    const data = JSON.parse(raw);
+    if (data.error) throw new Error(data.error.message || JSON.stringify(data.error));
+    const text = data.choices?.[0]?.message?.content || "";
+    if (!text) throw new Error("Empty response from AI");
+    return extractJSON(text);
   });
-  const raw = await resp.text();
-  if (!resp.ok) throw new Error(`HTTP ${resp.status}: ${raw.slice(0, 200)}`);
-  const data = JSON.parse(raw);
-  if (data.error) throw new Error(data.error.message || JSON.stringify(data.error));
-  return data.choices?.[0]?.message?.content || "";
 }
 
-// Views
+async function callAIText(messages, maxTokens = 600) {
+  return enqueue(async () => {
+    const resp = await fetch("/api/chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ messages, max_tokens: maxTokens }),
+    });
+    const raw = await resp.text();
+    if (resp.status === 429) {
+      showRateBanner(true);
+      setTimeout(() => showRateBanner(false), 10000);
+      throw new Error("Rate limited — please wait a moment");
+    }
+    if (!resp.ok) throw new Error(`HTTP ${resp.status}: ${raw.slice(0,200)}`);
+    const data = JSON.parse(raw);
+    return data.choices?.[0]?.message?.content || "";
+  });
+}
+
+// ── Views ─────────────────────────────────────────────────────────────────────
 function showView(id) {
   document.querySelectorAll(".view").forEach(v => v.classList.remove("active"));
   document.getElementById("view-" + id).classList.add("active");
@@ -434,21 +486,39 @@ function showView(id) {
 }
 function goHome()   { showView("home"); renderHome(); }
 function goLesson() { showView("lesson"); }
-
-// Navigate prev/next lesson
 function navigateLesson(dir) {
   const ni = state.idx + dir;
-  if (ni < 0 || ni >= CUR.length) return;
-  startLesson(ni);
+  if (ni >= 0 && ni < CUR.length) startLesson(ni);
 }
 
-// Start lesson for a specific index
+// ── Prior topic context ───────────────────────────────────────────────────────
+function getPriorContext(idx) {
+  // Up to 3 most recent completed topics before this one, with cached tldr
+  const prior = [];
+  for (let i = Math.max(0, idx - 5); i < idx; i++) {
+    if (state.done.includes(i) || state.tldrCache[i]) {
+      prior.push({ name: CUR[i][0], tldr: state.tldrCache[i] || null });
+    }
+  }
+  return prior.slice(-3);
+}
+
+function renderPriorWrap(prior) {
+  const wrap = document.getElementById("prior-wrap");
+  const chips = document.getElementById("prior-chips");
+  if (!prior.length) { wrap.style.display = "none"; return; }
+  chips.innerHTML = prior.map(p =>
+    `<span class="prior-chip" title="${esc(p.tldr || '')}">${esc(p.name)}</span>`
+  ).join("");
+  wrap.style.display = "block";
+}
+
+// ── Lesson ────────────────────────────────────────────────────────────────────
 async function startLesson(idx) {
   state.idx = idx;
   saveState();
-  state.lesson = null;
-  state.question = "";
-  state.cloudLoaded = false;
+  state.lesson = null; state.question = "";
+  state.practiceLoaded = false;
   state.askHistory = [];
 
   showView("lesson");
@@ -457,55 +527,71 @@ async function startLesson(idx) {
   document.getElementById("lesson-nav-sub").textContent = `${idx + 1} / ${CUR.length}`;
   document.getElementById("lesson-title").textContent   = t[0];
   document.getElementById("lesson-badges").innerHTML    = badge(t[1]) + `<span class="tag">${t[2]}</span>`;
-
-  // prev/next arrows
   document.getElementById("prev-btn").disabled = idx === 0;
   document.getElementById("next-btn").disabled = idx === CUR.length - 1;
+  document.getElementById("lesson-done-pill").style.display = state.done.includes(idx) ? "inline-flex" : "none";
 
-  // done pill
-  const dp = document.getElementById("lesson-done-pill");
-  dp.style.display = state.done.includes(idx) ? "inline-flex" : "none";
-
-  // reset tabs to Learn
-  document.querySelectorAll("#view-lesson .tab").forEach((b,i) => b.classList.toggle("active", i===0));
-  document.querySelectorAll("#view-lesson .tab-panel").forEach((p,i) => p.classList.toggle("active", i===0));
-
-  // reset ask thread
+  // Reset tabs to Lesson
+  ["lesson","practice"].forEach(tab => {
+    document.getElementById("tab-" + tab).classList.toggle("active", tab === "lesson");
+    document.getElementById("panel-" + tab).classList.toggle("active", tab === "lesson");
+  });
   document.getElementById("ask-thread").innerHTML = "";
   document.getElementById("ask-input").value = "";
+  document.getElementById("practice-content").innerHTML = "";
 
-  // reset cloud panel
-  document.getElementById("cloud-content").innerHTML = `<div class="spinner-wrap"><div class="spinner"></div><div class="spinner-msg">Load the ☁️ Cloud Examples tab to see Azure, AWS & Databricks implementations</div></div>`;
+  // Prior context
+  const prior = getPriorContext(idx);
+  renderPriorWrap(prior);
 
   document.getElementById("lesson-content").innerHTML = spinnerHTML("Preparing your lesson…");
 
+  // Build prior context string for the AI
+  const priorStr = prior.length
+    ? `\n\nStudent has already completed these topics (use them to build on prior knowledge):\n` +
+      prior.map(p => `- "${p.name}"${p.tldr ? `: ${p.tldr}` : ""}`).join("\n")
+    : "";
+
   try {
     const data = await callAI(
-      `Teach me: "${t[0]}" (level: ${t[1]})
+      `Teach me: "${t[0]}" (level: ${t[1]})${priorStr}
 
-Return ONLY this JSON (no markdown, no backticks, no preamble, no trailing text):
+You are teaching this as part of a series. Where relevant, connect this topic to what the student already knows from prior topics listed above.
+
+For each section, include inline how Azure, AWS, and Databricks implement this concept specifically — comparing the services, naming exact service names, and highlighting key differences between platforms. Use a microservices lens where applicable.
+
+CRITICAL: Keep ALL values SHORT. Max 2 sentences per field. Total under 2000 tokens.
+
+Return ONLY this JSON (no markdown, no backticks, no preamble):
 {
-  "tldr": "one punchy sentence — lead with the core trade-off or the problem this solves",
+  "tldr": "one sentence — the core trade-off or problem this solves",
+  "prior_connection": "one sentence connecting this to a previously learned topic — omit if idx is 0 or no prior topics",
   "sections": [
     {
       "heading": "short title",
-      "content": "2-3 sentences. Start with a real-world analogy, then the technical reality. Include a concrete number or scale reference.",
-      "example": "specific company + what they actually use this for"
+      "content": "2 sentences — analogy then technical reality",
+      "example": "1 sentence — specific company + what they use this for",
+      "cloud": {
+        "azure": "Azure service name + 1 sentence on how it implements this concept",
+        "aws": "AWS service name + 1 sentence on how it implements this concept",
+        "databricks": "Databricks/Spark feature + 1 sentence",
+        "difference": "1 sentence on the KEY difference between Azure and AWS for this concept"
+      }
     }
   ],
-  "company_example": {
-    "company": "company name",
-    "what": "what specific system they built",
-    "how": "2 sentences: the problem they had, and exactly how this concept solved it"
-  },
-  "key_insight": "the one thing a senior engineer knows that a junior misses — include a 'use when / avoid when' trade-off",
-  "viva_question": "an open-ended interview-style question that requires applied thinking, not recitation — e.g. 'You are designing X and notice Y. How do you approach Z?'"
+  "platform_comparison": [
+    { "aspect": "short aspect name", "azure": "1-2 words", "aws": "1-2 words", "databricks": "1-2 words" }
+  ],
+  "key_insight": "use when X. avoid when Y.",
+  "viva_question": "open-ended applied interview question — 1 sentence"
 }
 
-Rules: exactly 3 sections. No extra keys. Valid JSON only.`
-    );
+Rules: exactly 3 sections, exactly 3 rows in platform_comparison. No extra keys. Valid JSON only.`, 2200);
+
     state.lesson = data;
     state.question = data.viva_question || "Explain this concept and give a real-world example.";
+    // Cache tldr for future topics
+    if (data.tldr) { state.tldrCache[idx] = data.tldr; saveState(); }
     document.getElementById("lesson-content").innerHTML = renderLessonHTML(data);
     fetchDiagram(t[0]);
   } catch(e) {
@@ -514,105 +600,135 @@ Rules: exactly 3 sections. No extra keys. Valid JSON only.`
 }
 
 function renderLessonHTML(d) {
-  let html = `<div class="card">
-    <div class="lbl">TL;DR</div>
-    <div class="tldr">${esc(d.tldr)}</div>`;
+  let html = "";
 
+  // Prior connection callout
+  if (d.prior_connection) {
+    html += `<div style="background:#faf5ff;border-radius:10px;padding:10px 13px;margin-bottom:12px;border:1px solid #e9d5ff;font-size:13px;color:#6b21a8">
+      🔗 <strong>Building on:</strong> ${esc(d.prior_connection)}
+    </div>`;
+  }
+
+  // TL;DR
+  html += `<div class="card"><div class="lbl">TL;DR</div><div class="tldr">${esc(d.tldr)}</div>`;
+
+  // Sections with inline cloud
   (d.sections || []).forEach((s, i) => {
-    const last = i === (d.sections.length - 1);
-    html += `<div class="sec${last ? ' last' : ''}">
+    html += `<div class="sec">
       <div class="sec-heading"><span class="sec-num">${String(i+1).padStart(2,"0")}</span>${esc(s.heading)}</div>
       <div class="sec-body">${esc(s.content)}</div>
-      ${s.example ? `<div class="eg-box">💡 ${esc(s.example)}</div>` : ""}
-    </div>`;
+      ${s.example ? `<div class="eg-box">💡 ${esc(s.example)}</div>` : ""}`;
+
+    // Inline cloud block
+    if (s.cloud) {
+      html += `<div class="cloud-inline">
+        <div class="cloud-inline-title">☁️ How platforms implement this</div>
+        <div class="cloud-row"><span class="cloud-badge cloud-azure">Azure</span><span class="cloud-row-text">${esc(s.cloud.azure || "—")}</span></div>
+        <div class="cloud-row"><span class="cloud-badge cloud-aws">AWS</span><span class="cloud-row-text">${esc(s.cloud.aws || "—")}</span></div>
+        <div class="cloud-row"><span class="cloud-badge cloud-db">Databricks</span><span class="cloud-row-text">${esc(s.cloud.databricks || "—")}</span></div>
+        ${s.cloud.difference ? `<div style="margin-top:7px;font-size:11px;color:#6b7280;font-style:italic">⚡ ${esc(s.cloud.difference)}</div>` : ""}
+      </div>`;
+    }
+    html += `</div>`;
   });
   html += `</div>`;
 
-  if (d.company_example) {
+  // Platform comparison table
+  if (d.platform_comparison && d.platform_comparison.length) {
     html += `<div class="card">
-      <div class="lbl">Real world</div>
-      <div class="co-box">
-        <div class="co-name">🏢 ${esc(d.company_example.company)} — ${esc(d.company_example.what)}</div>
-        <div class="co-desc">${esc(d.company_example.how)}</div>
-      </div>
-    </div>`;
+      <div class="lbl">Platform Comparison</div>
+      <div class="compare-wrap">
+        <table class="compare-table">
+          <thead><tr><th>Aspect</th><th>🔷 Azure</th><th>🟠 AWS</th><th>🔶 Databricks</th></tr></thead>
+          <tbody>`;
+    d.platform_comparison.forEach(row => {
+      html += `<tr>
+        <td>${esc(row.aspect)}</td>
+        <td>${esc(row.azure)}</td>
+        <td>${esc(row.aws)}</td>
+        <td>${esc(row.databricks)}</td>
+      </tr>`;
+    });
+    html += `</tbody></table></div></div>`;
   }
 
-  html += `<div class="card">
-    <div class="lbl">Architecture Diagram</div>
-    <div class="diagram-wrap" id="diagram-container"><div class="spinner-msg" style="text-align:center;padding:20px;color:#aaa">Rendering diagram…</div></div>
-  </div>`;
+  // Diagram placeholder
+  html += `<div class="card"><div class="lbl">Architecture Diagram</div>
+    <div class="diagram-wrap" id="diagram-container">
+      <div class="spinner-msg" style="padding:20px">Generating diagram…</div>
+    </div></div>`;
 
-  if (d.key_insight) {
-    html += `<div class="insight">🔑 ${esc(d.key_insight)}</div>`;
-  }
+  // Key insight
+  if (d.key_insight) html += `<div class="insight">🔑 ${esc(d.key_insight)}</div>`;
 
-  const isDone = state.done.includes(state.idx);
+  // Viva button
   html += `<button class="btn btn-primary" onclick="startViva()" style="margin-top:14px">
-    ${isDone ? "✏️ Retake the viva" : "✏️ Take the viva"}
+    ${state.done.includes(state.idx) ? "✏️ Retake the viva" : "✏️ Take the viva"}
   </button>`;
+
   return html;
 }
 
-// Cloud Examples
-async function fetchCloudExamples(topicName) {
-  state.cloudLoaded = true;
-  document.getElementById("cloud-content").innerHTML = spinnerHTML("Fetching Azure, AWS & Databricks examples…");
+// ── Diagram ───────────────────────────────────────────────────────────────────
+async function fetchDiagram(topicName) {
+  const container = document.getElementById("diagram-container");
+  if (!container) return;
   try {
-    const data = await callAI(
-      `You are a cloud architect. For the system design topic "${topicName}", provide concrete implementation examples on Azure, AWS, and Databricks/Apache Spark.
+    const resp = await fetch("/api/chat", {
+      method:"POST", headers:{"Content-Type":"application/json"},
+      body: JSON.stringify({
+        max_tokens: 900,
+        messages: [{ role:"user", content:
+`Create an SVG architecture diagram for the system design topic: "${topicName}"
 
-Return ONLY this JSON (no markdown, no backticks):
-{
-  "examples": [
-    {
-      "platform": "Azure",
-      "emoji": "🔷",
-      "service": "the specific Azure service name",
-      "description": "2-3 sentences: what problem this solves for this topic, how to configure it, and a concrete scale number",
-      "snippet": "a short config snippet, CLI command, or pseudocode (max 8 lines) showing how to set it up"
-    },
-    {
-      "platform": "AWS",
-      "emoji": "🟠",
-      "service": "the specific AWS service name",
-      "description": "2-3 sentences: same format",
-      "snippet": "short snippet"
-    },
-    {
-      "platform": "Databricks",
-      "emoji": "🔶",
-      "service": "the specific Databricks/Spark feature or API",
-      "description": "2-3 sentences: same format",
-      "snippet": "short PySpark or Delta Lake snippet"
-    }
-  ]
-}
-
-Be specific — name the exact service (e.g. Azure Cache for Redis, not just 'Azure caching'). Valid JSON only.`
-    );
-    document.getElementById("cloud-content").innerHTML = renderCloudHTML(data.examples || []);
+Output ONLY raw SVG. Start with <svg — no explanation, no markdown, no backticks.
+viewBox="0 0 460 300" width="100%" height="auto"
+Style: white/light-grey boxes (#f9fafb fill, #d1d5db stroke), dark text (#1f2937), blue arrows (#3b82f6), rounded corners rx="6"
+Font: font-family="system-ui,sans-serif" font-size="12"
+Max 6 nodes. Show happy-path data flow with labeled arrows.
+Return ONLY the SVG.` }]
+      })
+    });
+    if (resp.status === 429) { container.innerHTML = `<div style="text-align:center;padding:16px;color:#aaa;font-size:13px">Diagram skipped (rate limit)</div>`; return; }
+    const data = await resp.json();
+    let raw = (data.choices?.[0]?.message?.content || "").trim()
+      .replace(/^```[a-z]*\n?/i,"").replace(/```$/i,"").trim();
+    container.innerHTML = raw.startsWith("<svg")
+      ? raw
+      : `<div style="text-align:center;padding:16px;color:#aaa;font-size:13px">Diagram unavailable</div>`;
   } catch(e) {
-    document.getElementById("cloud-content").innerHTML = errorHTML(e.message, `fetchCloudExamples('${topicName.replace(/'/g,"\\'")}') `);
+    if (container) container.innerHTML = `<div style="text-align:center;padding:16px;color:#aaa;font-size:13px">Diagram unavailable</div>`;
   }
 }
 
-function renderCloudHTML(examples) {
-  if (!examples.length) return `<p style="color:#aaa;font-size:13px;text-align:center;padding:20px">No examples available.</p>`;
-  return examples.map(ex => `
-    <div class="cloud-card">
-      <div class="cloud-header">
-        <span class="cloud-logo">${esc(ex.emoji)}</span>
-        <span class="cloud-name">${esc(ex.platform)}</span>
-        <span class="cloud-service">${esc(ex.service)}</span>
-      </div>
-      <div class="cloud-body">${esc(ex.description)}</div>
-      ${ex.snippet ? `<div class="cloud-snippet">${esc(ex.snippet)}</div>` : ""}
+// ── Practice ──────────────────────────────────────────────────────────────────
+function renderPractice(topicEntry) {
+  state.practiceLoaded = true;
+  const name = topicEntry[0].toLowerCase(), cat = topicEntry[2].toLowerCase();
+  let links = [...PRACTICE_LINKS.default];
+  for (const [k, arr] of Object.entries(PRACTICE_LINKS)) {
+    if (k === "default") continue;
+    if (name.includes(k) || cat.includes(k)) links = [...arr, ...links];
+  }
+  document.getElementById("practice-content").innerHTML = `
+    <div class="card">
+      <div class="lbl">Practice & Reference</div>
+      ${links.map(l => `
+        <a class="link-row" href="${l.url}" target="_blank" rel="noopener">
+          <div class="link-icon">${l.icon}</div>
+          <div class="link-info">
+            <div class="link-name">${esc(l.name)}</div>
+            <div class="link-desc">${esc(l.desc)}</div>
+          </div>
+          <span class="${l.free ? 'link-free' : 'link-paid'}">${l.free ? "Free" : "Paid"}</span>
+        </a>`).join("")}
     </div>
-  `).join("");
+    <div class="insight" style="margin-top:0">
+      💡 <strong>Tip:</strong> Open Excalidraw and draw the architecture from memory before the viva — if you can draw it, you understand it.
+    </div>`;
 }
 
-// Ask Groq
+// ── Ask Groq ──────────────────────────────────────────────────────────────────
 function autoResize(el) {
   el.style.height = "auto";
   el.style.height = Math.min(el.scrollHeight, 120) + "px";
@@ -622,130 +738,112 @@ async function sendAsk() {
   const input = document.getElementById("ask-input");
   const q = input.value.trim();
   if (!q) return;
-
-  input.value = "";
-  input.style.height = "auto";
+  input.value = ""; input.style.height = "auto";
 
   const t = CUR[state.idx];
-  const topicContext = `We are discussing the system design topic: "${t[0]}". The lesson TL;DR is: "${state.lesson?.tldr || ''}". Answer the student's question concisely and practically — 3-5 sentences max, plain English, with a concrete example if relevant.`;
+  const prior = getPriorContext(state.idx);
+  const priorStr = prior.length ? ` Student has previously learned: ${prior.map(p=>p.name).join(", ")}.` : "";
 
-  // Build message history for context
-  if (state.askHistory.length === 0) {
-    state.askHistory.push({ role: "user", content: topicContext + "\n\nStudent question: " + q });
+  if (!state.askHistory.length) {
+    state.askHistory.push({
+      role:"user",
+      content:`Topic: "${t[0]}". Summary: "${state.lesson?.tldr||''}".${priorStr} Answer in 3-4 concise sentences with a concrete example. Question: ${q}`
+    });
   } else {
-    state.askHistory.push({ role: "user", content: q });
+    state.askHistory.push({ role:"user", content:q });
   }
 
-  // Render user bubble
   const thread = document.getElementById("ask-thread");
+  const tid = "think-" + Date.now();
   thread.innerHTML += `<div class="ask-msg-user">${esc(q)}</div>`;
-  thread.innerHTML += `<div class="ask-msg-thinking" id="ask-thinking"><span class="spinner-sm"></span> Thinking…</div>`;
-  thread.scrollIntoView({ behavior: "smooth", block: "end" });
+  thread.innerHTML += `<div class="ask-msg-thinking" id="${tid}"><span class="spinner-sm"></span> Thinking…</div>`;
+  thread.lastElementChild.scrollIntoView({ behavior:"smooth", block:"end" });
 
   const btn = document.getElementById("ask-send-btn");
   btn.disabled = true;
-
   try {
     const reply = await callAIText(state.askHistory);
-    state.askHistory.push({ role: "assistant", content: reply });
-    document.getElementById("ask-thinking")?.remove();
+    state.askHistory.push({ role:"assistant", content:reply });
+    document.getElementById(tid)?.remove();
     thread.innerHTML += `<div class="ask-msg-ai">${esc(reply)}</div>`;
   } catch(e) {
-    document.getElementById("ask-thinking")?.remove();
-    thread.innerHTML += `<div class="ask-msg-ai" style="color:#dc2626">Error: ${esc(e.message)}</div>`;
+    document.getElementById(tid)?.remove();
+    thread.innerHTML += `<div class="ask-msg-ai" style="color:#dc2626">${esc(e.message)}</div>`;
   } finally {
     btn.disabled = false;
-    thread.lastElementChild?.scrollIntoView({ behavior: "smooth", block: "end" });
+    thread.lastElementChild?.scrollIntoView({ behavior:"smooth", block:"end" });
   }
 }
 
-// Allow Enter to send (Shift+Enter for newline)
-document.addEventListener("keydown", function(e) {
+document.addEventListener("keydown", e => {
   if (e.target.id === "ask-input" && e.key === "Enter" && !e.shiftKey) {
-    e.preventDefault();
-    sendAsk();
+    e.preventDefault(); sendAsk();
   }
 });
 
-// Viva
+// ── Viva ──────────────────────────────────────────────────────────────────────
 function startViva() {
   showView("viva");
   document.getElementById("viva-question").textContent = state.question;
-  const isDone = state.done.includes(state.idx);
-  const pill = document.getElementById("viva-done-pill");
-  pill.style.display = isDone ? "inline-flex" : "none";
+  document.getElementById("viva-done-pill").style.display = state.done.includes(state.idx) ? "inline-flex" : "none";
   renderVivaInput();
 }
 
 function renderVivaInput() {
   document.getElementById("viva-content").innerHTML = `
-    <textarea id="ans-input" placeholder="Explain it in your own words — plain English is fine. Focus on the concept, not perfection." oninput="updateSubmit()"></textarea>
+    <textarea id="ans-input" placeholder="Explain in your own words — plain English is fine." oninput="updateSubmit()"></textarea>
     <button class="btn btn-primary" id="submit-btn" onclick="submitAnswer()" disabled>Submit answer →</button>`;
 }
 
 function updateSubmit() {
-  const val = document.getElementById("ans-input")?.value || "";
-  const btn = document.getElementById("submit-btn");
-  if (btn) btn.disabled = val.trim().length < 10;
+  const v = document.getElementById("ans-input")?.value || "";
+  const b = document.getElementById("submit-btn");
+  if (b) b.disabled = v.trim().length < 10;
 }
 
 async function submitAnswer() {
   const ans = document.getElementById("ans-input").value;
   const t = CUR[state.idx];
   document.getElementById("viva-content").innerHTML = spinnerHTML("Evaluating your answer…");
-
   try {
     const data = await callAI(
-      `You are evaluating a system design student. Be a fair but direct FAANG-style interviewer.
+`Evaluate this system design answer. Be a fair, direct FAANG-style interviewer.
+Topic: "${t[0]}"
+TL;DR: "${state.lesson?.tldr||''}"
+Key insight: "${state.lesson?.key_insight||''}"
+Question: "${state.question}"
+Answer: "${ans}"
 
-Topic taught: "${t[0]}"
-Lesson TL;DR: "${state.lesson?.tldr || ''}"
-Key insight from lesson: "${state.lesson?.key_insight || ''}"
-Question asked: "${state.question}"
-Student answer: "${ans}"
-
-Evaluate ONLY based on concepts covered in this specific lesson. Do NOT penalise for unrelated topics.
-
-Return ONLY this JSON (no markdown, no backticks):
+Return ONLY this JSON (no markdown):
 {
   "passed": true or false,
   "score": "Excellent" or "Great" or "Good" or "Partially Correct" or "Needs Work",
-  "feedback": "2-3 sentences: be specific. Name what they got right and exactly where their understanding broke down. If they passed, add one senior-engineer insight they can build on.",
-  "correct_answer": "2 sentences: the mental model they were missing, framed as The key insight is... — ONLY include if passed is false"
+  "feedback": "2 sentences — what they got right and where understanding broke down",
+  "correct_answer": "2 sentences starting with The key insight is... — ONLY if passed is false"
 }
+Pass if student shows WHY, not just WHAT. Valid JSON only.`, 600);
 
-Pass threshold: student demonstrates they understand the WHY behind the concept, not just the definition. Imperfect wording is fine — look for the core mental model.`
-    );
-
-    if (data.passed) {
-      if (!state.done.includes(state.idx)) state.done = [...state.done, state.idx];
+    if (data.passed && !state.done.includes(state.idx)) {
+      state.done = [...state.done, state.idx];
       saveState();
     }
-
     const isLast = state.idx >= CUR.length - 1;
-    let html = `<div class="${data.passed ? "res-pass" : "res-fail"}">
-      <div class="res-title ${data.passed ? "pass" : "fail"}">${data.passed ? "✅ " + data.score + " — Passed!" : "❌ " + data.score + " — Try again"}</div>
+    let html = `<div class="${data.passed?"res-pass":"res-fail"}">
+      <div class="res-title ${data.passed?"pass":"fail"}">${data.passed?"✅ "+data.score+" — Passed!":"❌ "+data.score+" — Try again"}</div>
       <div class="feedback">${esc(data.feedback)}</div>
     </div>`;
-
-    if (!data.passed && data.correct_answer) {
+    if (!data.passed && data.correct_answer)
       html += `<div class="card"><div class="lbl">Ideal answer</div><div class="feedback">${esc(data.correct_answer)}</div></div>`;
-    }
-
     if (data.passed) {
-      html += `<button class="btn btn-success" onclick="nextTopic()">${isLast ? "🏆 Complete the curriculum!" : "Next topic →"}</button>`;
+      html += `<button class="btn btn-success" onclick="nextTopic()">${isLast?"🏆 Complete the curriculum!":"Next topic →"}</button>`;
       html += `<button class="btn btn-outline" onclick="goLesson()" style="margin-top:6px">← Back to lesson</button>`;
     } else {
       html += `<button class="btn btn-danger" onclick="retryViva()">↩ Try again</button>`;
       html += `<button class="btn btn-outline" onclick="goLesson()" style="margin-top:6px">← Review lesson first</button>`;
     }
-
     document.getElementById("viva-content").innerHTML = html;
-
-    // update done pill on lesson if now passed
     const dp = document.getElementById("lesson-done-pill");
     if (dp) dp.style.display = state.done.includes(state.idx) ? "inline-flex" : "none";
-
   } catch(e) {
     document.getElementById("viva-content").innerHTML = errorHTML(e.message, "submitAnswer()");
   }
@@ -754,72 +852,26 @@ Pass threshold: student demonstrates they understand the WHY behind the concept,
 function retryViva() { renderVivaInput(); }
 
 function nextTopic() {
-  // find next undone
   let ni = state.idx + 1;
   while (ni < CUR.length && state.done.includes(ni)) ni++;
-  if (ni >= CUR.length) ni = state.idx + 1; // fallback to sequential
-  state.idx = Math.min(ni, CUR.length - 1);
-  saveState();
-  goHome();
+  if (ni >= CUR.length) ni = Math.min(state.idx + 1, CUR.length - 1);
+  state.idx = ni; saveState(); goHome();
 }
 
-// Helpers
+// ── Helpers ───────────────────────────────────────────────────────────────────
 function spinnerHTML(msg) {
   return `<div class="spinner-wrap"><div class="spinner"></div><div class="spinner-msg">${msg}</div></div>`;
 }
-function errorHTML(msg, retryFn) {
-  return `<div class="err-box">
-    <div class="err-title">Something went wrong</div>
+function errorHTML(msg, fn) {
+  return `<div class="err-box"><div class="err-title">Something went wrong</div>
     <div class="err-msg">${esc(msg)}</div>
-    <button class="btn btn-outline" onclick="${retryFn}">Try again</button>
-  </div>`;
+    <button class="btn btn-outline" onclick="${fn}">Try again</button></div>`;
 }
 function esc(s) {
   if (!s) return "";
   return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
 }
 
-// Diagram — separate call so it never breaks lesson JSON
-async function fetchDiagram(topicName) {
-  const container = document.getElementById("diagram-container");
-  if (!container) return;
-  try {
-    const resp = await fetch("/api/chat", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        messages: [{
-          role: "user",
-          content: `Draw a Mermaid.js architecture diagram for: "${topicName}"
-
-Rules:
-- Use ONLY "graph TD" syntax
-- Node IDs must be single letters or short words: A, B, C, DB, LB, CDN
-- Node labels in square brackets only: A[Client], B[Load Balancer]
-- Show the happy-path data flow only — 4 to 6 nodes max
-- Label edges with the protocol or action where it adds clarity: A -->|HTTPS| B
-- No quotes, no parentheses, no special characters in node labels
-
-Return ONLY the raw Mermaid code. No explanation, no backticks, no markdown.`
-        }]
-      })
-    });
-    const data = await resp.json();
-    let raw = data.choices?.[0]?.message?.content || "";
-    raw = raw.replace(/```(?:mermaid)?/gi, "").replace(/```/g, "").trim();
-    if (!raw.startsWith("graph")) {
-      container.innerHTML = `<div style="text-align:center;padding:16px;color:#aaa;font-size:13px">Diagram unavailable</div>`;
-      return;
-    }
-    mermaid.initialize({ startOnLoad: false, theme: "default", securityLevel: "loose" });
-    const { svg } = await mermaid.render("mermaid-diagram", raw);
-    container.innerHTML = svg;
-  } catch(e) {
-    if (container) container.innerHTML = `<div style="text-align:center;padding:16px;color:#aaa;font-size:13px">Diagram unavailable</div>`;
-  }
-}
-
-// Boot
 loadState();
 renderHome();
 </script>
