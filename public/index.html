@@ -163,9 +163,9 @@
     <div class="prog-wrap"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
     <div class="card" id="today-card">
       <div class="lbl">Continue where you left off</div>
-      <div id="today-title" style="font-size:17px;font-weight:700;line-height:1.35;margin-bottom:8px"></div>
+      <div id="today-title" style="font-size:17px;font-weight:700;line-height:1.35;margin-bottom:8px">Loading…</div>
       <div id="today-badges" style="display:flex;gap:4px;flex-wrap:wrap;margin-bottom:8px"></div>
-      <div id="today-sub" style="font-size:12px;color:#ccc;margin-bottom:2px"></div>
+      <div id="today-sub" style="font-size:12px;color:#ccc;margin-bottom:2px">Topic 1 of 41</div>
       <button class="btn btn-primary" onclick="startLesson(state.idx)">▶ Start lesson</button>
     </div>
     <div id="trophy-card" class="card trophy" style="display:none">
@@ -581,6 +581,15 @@ Exactly 4 rows in rows[]. No extra keys.`, 900
     return;
   }
 
+  // Validate core lesson has minimum required content
+  if(!r1 || (!r1.tldr && !(r1.sections||[]).length)) {
+    document.getElementById("lesson-content").innerHTML=errorHTML(
+      "AI returned an empty lesson. This usually means a Groq API hiccup — please try again.",
+      `startLesson(${idx})`
+    );
+    return;
+  }
+
   // Cache tldr for future topics
   if(r1?.tldr){ state.tldrCache[idx]=r1.tldr; saveState(); }
   state.lesson=r1;
@@ -594,19 +603,20 @@ Exactly 4 rows in rows[]. No extra keys.`, 900
 function renderFullLesson(core, azure, aws, cmp){
   let html="";
 
-  // Prior connection
-  if(core.prior_connection){
+  // Prior connection (guard against AI returning string "null")
+  if(core.prior_connection && core.prior_connection !== 'null'){
     html+=`<div class="prior-banner">🔗 <strong>Building on:</strong> ${esc(core.prior_connection)}</div>`;
   }
 
   // ── Core explanation ──
   html+=`<div class="card">
     <div class="lbl">📖 Core Concept</div>
-    <div class="tldr">${esc(core.tldr)}</div>`;
+    ${core.tldr?`<div class="tldr">${esc(core.tldr)}</div>`:''}`;
   (core.sections||[]).forEach((s,i)=>{
+    if(!s.heading && !s.content) return;
     html+=`<div class="sec">
-      <div class="sec-heading"><span class="sec-num">${String(i+1).padStart(2,"0")}</span>${esc(s.heading)}</div>
-      <div class="sec-body">${esc(s.content)}</div>
+      <div class="sec-heading"><span class="sec-num">${String(i+1).padStart(2,"0")}</span>${esc(s.heading||'')}</div>
+      ${s.content?`<div class="sec-body">${esc(s.content)}</div>`:''}
       ${s.example?`<div class="eg-box"><div class="eg-label">Real-world example</div>${esc(s.example)}</div>`:""}
     </div>`;
   });
@@ -615,28 +625,28 @@ function renderFullLesson(core, azure, aws, cmp){
   if(core.key_insight) html+=`<div class="insight">🔑 ${esc(core.key_insight)}</div>`;
 
   // ── Azure ──
-  if(azure){
+  if(azure && (azure.service||azure.flow)){
     html+=`<div class="cloud-platform">
       <div class="cloud-platform-header">
         <span class="cloud-emoji">🔷</span>
         <span class="cloud-platform-name">Azure</span>
-        <span class="cloud-service-tag">${esc(azure.service||"")}</span>
+        ${azure.service?`<span class="cloud-service-tag">${esc(azure.service)}</span>`:''}
       </div>
-      <div class="cloud-flow">${esc(azure.flow||"")}</div>
+      ${azure.flow?`<div class="cloud-flow">${esc(azure.flow)}</div>`:''}
       ${azure.usecase?`<div class="eg-box"><div class="eg-label">When to use this</div>${esc(azure.usecase)}</div>`:""}
       ${azure.snippet?`<div class="cloud-snippet">${esc(azure.snippet)}</div>`:""}
     </div>`;
   }
 
   // ── AWS ──
-  if(aws){
+  if(aws && (aws.service||aws.flow)){
     html+=`<div class="cloud-platform">
       <div class="cloud-platform-header">
         <span class="cloud-emoji">🟠</span>
         <span class="cloud-platform-name">AWS</span>
-        <span class="cloud-service-tag">${esc(aws.service||"")}</span>
+        ${aws.service?`<span class="cloud-service-tag">${esc(aws.service)}</span>`:''}
       </div>
-      <div class="cloud-flow">${esc(aws.flow||"")}</div>
+      ${aws.flow?`<div class="cloud-flow">${esc(aws.flow)}</div>`:''}
       ${aws.usecase?`<div class="eg-box"><div class="eg-label">When to use this</div>${esc(aws.usecase)}</div>`:""}
       ${aws.snippet?`<div class="cloud-snippet">${esc(aws.snippet)}</div>`:""}
       ${aws.vs_azure?`<div style="margin-top:8px;padding-top:8px;border-top:1px solid #e5e5e5;font-size:12px;color:#555"><strong>⚡ vs Azure:</strong> ${esc(aws.vs_azure)}</div>`:""}
