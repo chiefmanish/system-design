@@ -572,7 +572,7 @@ Exactly 4 rows in rows[]. No extra keys.`, 900
    .catch(e=>{ setStep("s-cmp","failed"); return null; });
 
   // Wait for all 4 to settle (allSettled so one failure doesn't kill the rest)
-  let [r1,r2,r3,r4];
+  let r1, r2, r3, r4;
   try {
     [r1,r2,r3,r4] = await Promise.all([p1,p2,p3,p4]);
   } catch(e) {
