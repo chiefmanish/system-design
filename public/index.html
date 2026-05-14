@@ -81,9 +81,7 @@
     .prior-chip { font-size: 11px; color: #555; background: #fff; border: 1px solid #e5e5e5; border-radius: 6px; padding: 3px 8px; }
     /* Insight */
     .insight { background: #eff6ff; border-radius: 10px; padding: 12px 14px; margin-top: 4px; font-size: 14px; line-height: 1.7; color: #1d4ed8; }
-    /* Diagram */
-    .diagram-wrap { background: #fafafa; border-radius: 10px; padding: 14px; margin-bottom: 10px; overflow-x: auto; border: 1px solid #ebebeb; }
-    .diagram-wrap svg { max-width: 100%; height: auto; }
+
     /* co-box */
     .co-box { background: #f7f7f6; border-radius: 10px; padding: 12px 13px; }
     .co-name { font-size: 13px; font-weight: 700; margin-bottom: 4px; }
@@ -460,22 +458,29 @@ async function callAI(prompt, maxTokens = 2000) {
 }
 
 async function callAIText(messages, maxTokens = 600) {
-  return enqueue(async () => {
-    const resp = await fetch("/api/chat", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ messages, max_tokens: maxTokens }),
-    });
-    const raw = await resp.text();
-    if (resp.status === 429) {
-      showRateBanner(true);
-      setTimeout(() => showRateBanner(false), 10000);
-      throw new Error("Rate limited — please wait a moment");
-    }
-    if (!resp.ok) throw new Error(`HTTP ${resp.status}: ${raw.slice(0,200)}`);
-    const data = JSON.parse(raw);
-    return data.choices?.[0]?.message?.content || "";
+  // Direct fetch — bypasses queue so Ask never waits behind lesson/diagram calls
+  const resp = await fetch("/api/chat", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ messages, max_tokens: maxTokens, plain_text: true }),
   });
+  const raw = await resp.text();
+  if (resp.status === 429) {
+    showRateBanner(true);
+    setTimeout(() => showRateBanner(false), 10000);
+    throw new Error("Rate limited — please wait a moment");
+  }
+  if (!resp.ok) throw new Error(`HTTP ${resp.status}: ${raw.slice(0,200)}`);
+  const data = JSON.parse(raw);
+  let text = data.choices?.[0]?.message?.content || "";
+  // If model still returned JSON object, unwrap the value
+  if (text.trim().startsWith("{")) {
+    try {
+      const p = JSON.parse(text);
+      text = p.response || p.answer || p.text || p.content || text;
+    } catch(_) {}
+  }
+  return text;
 }
 
 // ── Views ─────────────────────────────────────────────────────────────────────
@@ -593,7 +598,7 @@ Rules: exactly 3 sections, exactly 3 rows in platform_comparison. No extra keys.
     // Cache tldr for future topics
     if (data.tldr) { state.tldrCache[idx] = data.tldr; saveState(); }
     document.getElementById("lesson-content").innerHTML = renderLessonHTML(data);
-    fetchDiagram(t[0]);
+
   } catch(e) {
     document.getElementById("lesson-content").innerHTML = errorHTML(e.message, `startLesson(${idx})`);
   }
@@ -652,11 +657,7 @@ function renderLessonHTML(d) {
     html += `</tbody></table></div></div>`;
   }
 
-  // Diagram placeholder
-  html += `<div class="card"><div class="lbl">Architecture Diagram</div>
-    <div class="diagram-wrap" id="diagram-container">
-      <div class="spinner-msg" style="padding:20px">Generating diagram…</div>
-    </div></div>`;
+  // Diagram removed
 
   // Key insight
   if (d.key_insight) html += `<div class="insight">🔑 ${esc(d.key_insight)}</div>`;
@@ -669,37 +670,7 @@ function renderLessonHTML(d) {
   return html;
 }
 
-// ── Diagram ───────────────────────────────────────────────────────────────────
-async function fetchDiagram(topicName) {
-  const container = document.getElementById("diagram-container");
-  if (!container) return;
-  try {
-    const resp = await fetch("/api/chat", {
-      method:"POST", headers:{"Content-Type":"application/json"},
-      body: JSON.stringify({
-        max_tokens: 900,
-        messages: [{ role:"user", content:
-`Create an SVG architecture diagram for the system design topic: "${topicName}"
 
-Output ONLY raw SVG. Start with <svg — no explanation, no markdown, no backticks.
-viewBox="0 0 460 300" width="100%" height="auto"
-Style: white/light-grey boxes (#f9fafb fill, #d1d5db stroke), dark text (#1f2937), blue arrows (#3b82f6), rounded corners rx="6"
-Font: font-family="system-ui,sans-serif" font-size="12"
-Max 6 nodes. Show happy-path data flow with labeled arrows.
-Return ONLY the SVG.` }]
-      })
-    });
-    if (resp.status === 429) { container.innerHTML = `<div style="text-align:center;padding:16px;color:#aaa;font-size:13px">Diagram skipped (rate limit)</div>`; return; }
-    const data = await resp.json();
-    let raw = (data.choices?.[0]?.message?.content || "").trim()
-      .replace(/^```[a-z]*\n?/i,"").replace(/```$/i,"").trim();
-    container.innerHTML = raw.startsWith("<svg")
-      ? raw
-      : `<div style="text-align:center;padding:16px;color:#aaa;font-size:13px">Diagram unavailable</div>`;
-  } catch(e) {
-    if (container) container.innerHTML = `<div style="text-align:center;padding:16px;color:#aaa;font-size:13px">Diagram unavailable</div>`;
-  }
-}
 
 // ── Practice ──────────────────────────────────────────────────────────────────
 function renderPractice(topicEntry) {
