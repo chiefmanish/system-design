@@ -42,21 +42,35 @@
     .btn-outline { background: #fff; color: #111; border: 1.5px solid #ddd !important; font-weight: 600; }
     .btn-success { background: #15803d; color: #fff; }
     .btn-danger  { background: #fff; color: #dc2626; border: 1.5px solid #fca5a5 !important; font-weight: 600; }
+    .btn-sm { padding: 9px 14px; font-size: 13px; font-weight: 600; width: auto; border-radius: 10px; }
     .btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
+    /* Nav arrows */
+    .nav-arrows { display: flex; align-items: center; gap: 6px; }
+    .arrow-btn { background: #f5f5f4; border: 1px solid #e5e5e5; border-radius: 8px; padding: 5px 10px; font-size: 14px; cursor: pointer; font-family: inherit; color: #555; font-weight: 600; }
+    .arrow-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+    .arrow-btn:not(:disabled):active { background: #eee; }
+
     /* Topic rows */
-    .t-row { display: flex; align-items: center; gap: 10px; padding: 9px 0; border-bottom: 1px solid #f5f5f5; }
+    .t-row { display: flex; align-items: center; gap: 10px; padding: 9px 0; border-bottom: 1px solid #f5f5f5; cursor: pointer; }
     .t-row:last-child { border-bottom: none; }
-    .t-row.locked { opacity: 0.3; }
+    .t-row:hover .t-name { color: #111; }
     .t-num { width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; flex-shrink: 0; border: 1px solid #e5e5e5; color: #aaa; background: #f5f5f5; }
     .t-num.done    { background: #dcfce7; border-color: #86efac; color: #166534; }
     .t-num.current { background: #111; border-color: #111; color: #fff; }
-    .t-name { flex: 1; min-width: 0; font-size: 13px; color: #444; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .t-name.done    { color: #ccc; text-decoration: line-through; }
+    .t-name { flex: 1; min-width: 0; font-size: 13px; color: #444; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; transition: color .15s; }
+    .t-name.done    { color: #bbb; text-decoration: line-through; }
     .t-name.current { color: #111; font-weight: 600; }
 
     /* Labels */
     .lbl { font-size: 10px; font-weight: 700; color: #bbb; letter-spacing: .08em; text-transform: uppercase; margin-bottom: 7px; }
+
+    /* Tabs */
+    .tabs { display: flex; gap: 4px; margin-bottom: 12px; background: #f5f5f4; border-radius: 10px; padding: 4px; }
+    .tab { flex: 1; padding: 8px 6px; border: none; background: none; border-radius: 8px; font-size: 12px; font-weight: 600; color: #999; cursor: pointer; font-family: inherit; transition: all .15s; }
+    .tab.active { background: #fff; color: #111; box-shadow: 0 1px 3px rgba(0,0,0,.08); }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
 
     /* Lesson content */
     .tldr { background: #f7f7f6; border-radius: 10px; padding: 12px 14px; margin-bottom: 14px; font-size: 14px; line-height: 1.7; color: #333; }
@@ -70,6 +84,30 @@
     .co-name { font-size: 13px; font-weight: 700; margin-bottom: 4px; }
     .co-desc { font-size: 13px; color: #666; line-height: 1.65; }
     .insight { background: #eff6ff; border-radius: 10px; padding: 12px 14px; margin-top: 4px; font-size: 14px; line-height: 1.7; color: #1d4ed8; }
+
+    /* Cloud design example */
+    .cloud-card { background: #f7f7f6; border-radius: 10px; padding: 13px 14px; margin-bottom: 10px; border: 1px solid #e8e8e8; }
+    .cloud-header { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+    .cloud-logo { font-size: 18px; }
+    .cloud-name { font-size: 13px; font-weight: 700; color: #111; }
+    .cloud-service { font-size: 11px; color: #888; margin-left: auto; background: #fff; border: 1px solid #e5e5e5; padding: 2px 8px; border-radius: 99px; }
+    .cloud-body { font-size: 13px; line-height: 1.7; color: #555; }
+    .cloud-snippet { background: #1e1e2e; border-radius: 8px; padding: 10px 12px; margin-top: 8px; font-size: 11px; font-family: monospace; color: #cdd6f4; line-height: 1.6; overflow-x: auto; white-space: pre; }
+
+    /* Ask Groq */
+    .ask-box { border: 1.5px solid #e5e5e5; border-radius: 14px; padding: 14px 16px; background: #fff; margin-bottom: 10px; }
+    .ask-header { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+    .ask-icon { font-size: 16px; }
+    .ask-title { font-size: 13px; font-weight: 700; color: #111; }
+    .ask-input-row { display: flex; gap: 8px; align-items: flex-end; }
+    .ask-input { flex: 1; padding: 10px 12px; border: 1.5px solid #e5e5e5; border-radius: 10px; font-size: 13px; font-family: inherit; color: #111; resize: none; min-height: 42px; max-height: 120px; line-height: 1.5; outline: none; background: #fafafa; }
+    .ask-input:focus { border-color: #111; background: #fff; }
+    .ask-send { background: #111; color: #fff; border: none; border-radius: 10px; padding: 10px 14px; font-size: 13px; font-weight: 700; cursor: pointer; font-family: inherit; white-space: nowrap; flex-shrink: 0; }
+    .ask-send:disabled { opacity: 0.4; cursor: not-allowed; }
+    .ask-thread { margin-top: 12px; display: flex; flex-direction: column; gap: 8px; }
+    .ask-msg-user { background: #111; color: #fff; border-radius: 10px 10px 2px 10px; padding: 9px 12px; font-size: 13px; line-height: 1.6; align-self: flex-end; max-width: 90%; }
+    .ask-msg-ai { background: #f0f4ff; color: #1e3a8a; border-radius: 10px 10px 10px 2px; padding: 9px 12px; font-size: 13px; line-height: 1.6; align-self: flex-start; max-width: 95%; }
+    .ask-msg-thinking { color: #aaa; font-size: 12px; font-style: italic; padding: 4px 0; }
 
     /* Viva */
     .question { font-size: 15px; font-weight: 600; line-height: 1.5; color: #111; }
@@ -93,6 +131,7 @@
     .spinner-wrap { display: flex; flex-direction: column; align-items: center; padding: 56px 0; gap: 12px; }
     .spinner { width: 28px; height: 28px; border: 3px solid #eee; border-top-color: #111; border-radius: 50%; animation: spin .7s linear infinite; }
     .spinner-msg { font-size: 13px; color: #aaa; }
+    .spinner-sm { width: 14px; height: 14px; border: 2px solid #eee; border-top-color: #888; border-radius: 50%; animation: spin .7s linear infinite; display: inline-block; }
     @keyframes spin { to { transform: rotate(360deg); } }
     .diagram-wrap { background: #f7f7f6; border-radius: 10px; padding: 14px 10px; margin-bottom: 10px; overflow-x: auto; }
     .diagram-wrap .mermaid { min-width: 260px; }
@@ -107,6 +146,9 @@
     .trophy-icon { font-size: 48px; margin-bottom: 12px; }
     .trophy-title { font-size: 20px; font-weight: 700; margin-bottom: 6px; }
     .trophy-sub { font-size: 14px; color: #888; }
+
+    /* Done pill on viva */
+    .done-pill { display: inline-flex; align-items: center; gap: 4px; background: #dcfce7; color: #166534; font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: 99px; margin-left: 8px; }
   </style>
 </head>
 <body>
@@ -121,11 +163,11 @@
     <div class="prog-wrap"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
 
     <div class="card" id="today-card">
-      <div class="lbl">Today's topic</div>
+      <div class="lbl">Continue where you left off</div>
       <div id="today-title" style="font-size:17px;font-weight:700;line-height:1.35;margin-bottom:8px"></div>
       <div id="today-badges" style="display:flex;gap:4px;flex-wrap:wrap;margin-bottom:8px"></div>
       <div id="today-sub" style="font-size:12px;color:#ccc;margin-bottom:2px"></div>
-      <button class="btn btn-primary" onclick="startLesson()">▶ Start lesson</button>
+      <button class="btn btn-primary" onclick="startLesson(state.idx)">▶ Start lesson</button>
     </div>
 
     <div id="trophy-card" class="card trophy" style="display:none">
@@ -135,7 +177,7 @@
     </div>
 
     <div class="card">
-      <div class="lbl">Curriculum</div>
+      <div class="lbl">Curriculum — click any topic to jump to it</div>
       <div id="curriculum-list"></div>
       <button class="btn btn-outline" id="show-all-btn" onclick="toggleAll()" style="margin-top:8px">See all 41 topics</button>
     </div>
@@ -146,14 +188,44 @@
 <div id="view-lesson" class="view">
   <div class="nav">
     <button class="back-btn" onclick="goHome()">← Home</button>
-    <span class="nav-sub" id="lesson-nav-sub"></span>
+    <div class="nav-arrows">
+      <button class="arrow-btn" id="prev-btn" onclick="navigateLesson(-1)">‹</button>
+      <span class="nav-sub" id="lesson-nav-sub"></span>
+      <button class="arrow-btn" id="next-btn" onclick="navigateLesson(1)">›</button>
+    </div>
   </div>
   <div class="body">
-    <div style="margin-bottom:12px">
-      <div id="lesson-title" style="font-size:17px;font-weight:700;line-height:1.35;margin-bottom:8px"></div>
+    <div style="margin-bottom:12px;display:flex;align-items:center;flex-wrap:wrap;gap:6px">
+      <div id="lesson-title" style="font-size:17px;font-weight:700;line-height:1.35;width:100%"></div>
       <div id="lesson-badges"></div>
+      <span id="lesson-done-pill" style="display:none" class="done-pill">✓ Done</span>
     </div>
-    <div id="lesson-content"></div>
+
+    <!-- Tabs -->
+    <div class="tabs">
+      <button class="tab active" onclick="switchTab('lesson','learn')">📖 Learn</button>
+      <button class="tab" onclick="switchTab('lesson','cloud')">☁️ Cloud Examples</button>
+    </div>
+
+    <div id="lesson-tab-learn" class="tab-panel active">
+      <div id="lesson-content"></div>
+    </div>
+    <div id="lesson-tab-cloud" class="tab-panel">
+      <div id="cloud-content"></div>
+    </div>
+
+    <!-- Ask Groq — always visible below tabs -->
+    <div class="ask-box" id="ask-box">
+      <div class="ask-header">
+        <span class="ask-icon">💬</span>
+        <span class="ask-title">Ask about this topic</span>
+      </div>
+      <div class="ask-input-row">
+        <textarea class="ask-input" id="ask-input" rows="1" placeholder="Any doubt? e.g. 'How does this differ from X?'" oninput="autoResize(this)"></textarea>
+        <button class="ask-send" id="ask-send-btn" onclick="sendAsk()">Ask</button>
+      </div>
+      <div id="ask-thread"></div>
+    </div>
   </div>
 </div>
 
@@ -161,7 +233,10 @@
 <div id="view-viva" class="view">
   <div class="nav">
     <button class="back-btn" onclick="goLesson()">← Lesson</button>
-    <span class="nav-sub">Viva</span>
+    <div style="display:flex;align-items:center;gap:6px">
+      <span class="nav-sub">Viva</span>
+      <span id="viva-done-pill" style="display:none" class="done-pill">✓ Already passed</span>
+    </div>
   </div>
   <div class="body">
     <div class="card" style="margin-bottom:12px">
@@ -214,7 +289,7 @@ const CUR = [
   ["Case Study: Design a News Feed (like Twitter/X)","Advanced","Case Study"],
   ["Vector Databases & AI System Design","Pro","AI Systems"],
   ["LLM APIs, Agent Orchestration & RAG Systems","Pro","AI Systems"],
-  ["Designing AI-Powered Apps at Scale (Buddy v2 🚀)","Pro","AI Systems"],
+  ["Designing AI-Powered Apps at Scale","Pro","AI Systems"],
 ];
 
 // State
@@ -224,6 +299,8 @@ let state = {
   showAll: false,
   lesson: null,
   question: "",
+  cloudLoaded: false,
+  askHistory: [],   // [{role, content}] per topic — reset on topic change
 };
 
 // Persist
@@ -248,17 +325,25 @@ function badge(lvl) {
 function renderHome() {
   const t = CUR[Math.min(state.idx, CUR.length - 1)];
   const pct = Math.round((state.done.length / CUR.length) * 100);
-  const finished = state.idx >= CUR.length;
+  const finished = state.done.length >= CUR.length;
 
   document.getElementById("prog-fill").style.width = pct + "%";
   document.getElementById("home-progress-label").textContent = `${state.done.length}/${CUR.length} · ${pct}%`;
 
-  document.getElementById("today-card").style.display   = finished ? "none" : "block";
-  document.getElementById("trophy-card").style.display  = finished ? "block" : "none";
+  document.getElementById("today-card").style.display  = finished ? "none" : "block";
+  document.getElementById("trophy-card").style.display = finished ? "block" : "none";
 
   if (!finished) {
-    document.getElementById("today-title").textContent = t[0];
-    document.getElementById("today-badges").innerHTML  = badge(t[1]) + `<span class="tag">${t[2]}</span>`;
+    // find next undone topic
+    let next = state.idx;
+    if (state.done.includes(state.idx)) {
+      next = CUR.findIndex((_, i) => !state.done.includes(i));
+      if (next === -1) next = state.idx;
+      else state.idx = next;
+    }
+    const cur = CUR[state.idx];
+    document.getElementById("today-title").textContent = cur[0];
+    document.getElementById("today-badges").innerHTML  = badge(cur[1]) + `<span class="tag">${cur[2]}</span>`;
     document.getElementById("today-sub").textContent   = `Topic ${state.idx + 1} of ${CUR.length}`;
   }
 
@@ -272,10 +357,9 @@ function renderCurriculum() {
     const c = CUR[i];
     const isComp = state.done.includes(i);
     const isCur  = i === state.idx;
-    const isLock = i > state.idx && !isComp;
     const numCls = isComp ? "done" : isCur ? "current" : "";
     const nameCls = isComp ? "done" : isCur ? "current" : "";
-    html += `<div class="t-row${isLock ? " locked" : ""}">
+    html += `<div class="t-row" onclick="startLesson(${i})">
       <div class="t-num ${numCls}">${isComp ? "✓" : i + 1}</div>
       <div class="t-name ${nameCls}">${c[0]}</div>
       ${badge(c[1])}
@@ -291,14 +375,28 @@ function toggleAll() {
   renderCurriculum();
 }
 
-// API call
+// Tab switching
+function switchTab(view, tab) {
+  const panels = document.querySelectorAll(`#view-${view} .tab-panel`);
+  const tabs   = document.querySelectorAll(`#view-${view} .tab`);
+  panels.forEach(p => p.classList.remove("active"));
+  tabs.forEach(t => t.classList.remove("active"));
+  document.getElementById(`${view}-tab-${tab}`).classList.add("active");
+  // activate corresponding tab button
+  const tabBtns = document.querySelectorAll(`#view-${view} .tab`);
+  tabBtns.forEach(b => { if (b.textContent.toLowerCase().includes(tab === 'learn' ? 'learn' : 'cloud')) b.classList.add("active"); });
+
+  if (tab === 'cloud' && !state.cloudLoaded) {
+    fetchCloudExamples(CUR[state.idx][0]);
+  }
+}
+
+// API call — returns parsed JSON
 async function callAI(prompt) {
   const resp = await fetch("/api/chat", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      messages: [{ role: "user", content: prompt }],
-    }),
+    body: JSON.stringify({ messages: [{ role: "user", content: prompt }] }),
   });
   const raw = await resp.text();
   if (!resp.ok) throw new Error(`HTTP ${resp.status}: ${raw.slice(0, 200)}`);
@@ -306,13 +404,26 @@ async function callAI(prompt) {
   if (data.error) throw new Error(data.error.message || JSON.stringify(data.error));
   const text = data.choices?.[0]?.message?.content || "";
   if (!text) throw new Error("Empty response from AI");
-  // Extract JSON robustly
   try { return JSON.parse(text); } catch(_) {}
   const fenced = text.match(/```(?:json)?\s*([\s\S]*?)```/);
   if (fenced) { try { return JSON.parse(fenced[1].trim()); } catch(_) {} }
   const s = text.indexOf("{"), e = text.lastIndexOf("}");
   if (s !== -1 && e > s) { try { return JSON.parse(text.slice(s, e + 1)); } catch(_) {} }
   throw new Error(`Could not parse JSON. AI said: ${text.slice(0, 300)}`);
+}
+
+// API call — returns raw text (for Ask Groq)
+async function callAIText(messages) {
+  const resp = await fetch("/api/chat", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ messages }),
+  });
+  const raw = await resp.text();
+  if (!resp.ok) throw new Error(`HTTP ${resp.status}: ${raw.slice(0, 200)}`);
+  const data = JSON.parse(raw);
+  if (data.error) throw new Error(data.error.message || JSON.stringify(data.error));
+  return data.choices?.[0]?.message?.content || "";
 }
 
 // Views
@@ -324,14 +435,49 @@ function showView(id) {
 function goHome()   { showView("home"); renderHome(); }
 function goLesson() { showView("lesson"); }
 
-// Start lesson
-async function startLesson() {
+// Navigate prev/next lesson
+function navigateLesson(dir) {
+  const ni = state.idx + dir;
+  if (ni < 0 || ni >= CUR.length) return;
+  startLesson(ni);
+}
+
+// Start lesson for a specific index
+async function startLesson(idx) {
+  state.idx = idx;
+  saveState();
+  state.lesson = null;
+  state.question = "";
+  state.cloudLoaded = false;
+  state.askHistory = [];
+
   showView("lesson");
-  const t = CUR[state.idx];
-  document.getElementById("lesson-nav-sub").textContent = `Lesson ${state.idx + 1}/${CUR.length}`;
+  const t = CUR[idx];
+
+  document.getElementById("lesson-nav-sub").textContent = `${idx + 1} / ${CUR.length}`;
   document.getElementById("lesson-title").textContent   = t[0];
   document.getElementById("lesson-badges").innerHTML    = badge(t[1]) + `<span class="tag">${t[2]}</span>`;
-  document.getElementById("lesson-content").innerHTML   = spinnerHTML("Preparing your lesson…");
+
+  // prev/next arrows
+  document.getElementById("prev-btn").disabled = idx === 0;
+  document.getElementById("next-btn").disabled = idx === CUR.length - 1;
+
+  // done pill
+  const dp = document.getElementById("lesson-done-pill");
+  dp.style.display = state.done.includes(idx) ? "inline-flex" : "none";
+
+  // reset tabs to Learn
+  document.querySelectorAll("#view-lesson .tab").forEach((b,i) => b.classList.toggle("active", i===0));
+  document.querySelectorAll("#view-lesson .tab-panel").forEach((p,i) => p.classList.toggle("active", i===0));
+
+  // reset ask thread
+  document.getElementById("ask-thread").innerHTML = "";
+  document.getElementById("ask-input").value = "";
+
+  // reset cloud panel
+  document.getElementById("cloud-content").innerHTML = `<div class="spinner-wrap"><div class="spinner"></div><div class="spinner-msg">Load the ☁️ Cloud Examples tab to see Azure, AWS & Databricks implementations</div></div>`;
+
+  document.getElementById("lesson-content").innerHTML = spinnerHTML("Preparing your lesson…");
 
   try {
     const data = await callAI(
@@ -353,7 +499,7 @@ Return ONLY this JSON (no markdown, no backticks, no preamble, no trailing text)
     "how": "2 sentences: the problem they had, and exactly how this concept solved it"
   },
   "key_insight": "the one thing a senior engineer knows that a junior misses — include a 'use when / avoid when' trade-off",
-  "viva_question": "an open-ended interview-style question that requires applied thinking, not recitation — e.g. 'You're designing X and notice Y. How do you approach Z?'"
+  "viva_question": "an open-ended interview-style question that requires applied thinking, not recitation — e.g. 'You are designing X and notice Y. How do you approach Z?'"
 }
 
 Rules: exactly 3 sections. No extra keys. Valid JSON only.`
@@ -361,10 +507,9 @@ Rules: exactly 3 sections. No extra keys. Valid JSON only.`
     state.lesson = data;
     state.question = data.viva_question || "Explain this concept and give a real-world example.";
     document.getElementById("lesson-content").innerHTML = renderLessonHTML(data);
-    // Fetch diagram separately so it never breaks lesson parsing
     fetchDiagram(t[0]);
   } catch(e) {
-    document.getElementById("lesson-content").innerHTML = errorHTML(e.message, "startLesson()");
+    document.getElementById("lesson-content").innerHTML = errorHTML(e.message, `startLesson(${idx})`);
   }
 }
 
@@ -393,25 +538,142 @@ function renderLessonHTML(d) {
     </div>`;
   }
 
-  if (d.diagram) {
-    html += `<div class="card">
-      <div class="lbl">Architecture Diagram</div>
-      <div class="diagram-wrap" id="diagram-container"><div class="spinner-msg" style="text-align:center;padding:20px;color:#aaa">Rendering diagram…</div></div>
-    </div>`;
-  }
+  html += `<div class="card">
+    <div class="lbl">Architecture Diagram</div>
+    <div class="diagram-wrap" id="diagram-container"><div class="spinner-msg" style="text-align:center;padding:20px;color:#aaa">Rendering diagram…</div></div>
+  </div>`;
 
   if (d.key_insight) {
     html += `<div class="insight">🔑 ${esc(d.key_insight)}</div>`;
   }
 
-  html += `<button class="btn btn-primary" onclick="startViva()" style="margin-top:14px">✏️ Take the viva</button>`;
+  const isDone = state.done.includes(state.idx);
+  html += `<button class="btn btn-primary" onclick="startViva()" style="margin-top:14px">
+    ${isDone ? "✏️ Retake the viva" : "✏️ Take the viva"}
+  </button>`;
   return html;
 }
+
+// Cloud Examples
+async function fetchCloudExamples(topicName) {
+  state.cloudLoaded = true;
+  document.getElementById("cloud-content").innerHTML = spinnerHTML("Fetching Azure, AWS & Databricks examples…");
+  try {
+    const data = await callAI(
+      `You are a cloud architect. For the system design topic "${topicName}", provide concrete implementation examples on Azure, AWS, and Databricks/Apache Spark.
+
+Return ONLY this JSON (no markdown, no backticks):
+{
+  "examples": [
+    {
+      "platform": "Azure",
+      "emoji": "🔷",
+      "service": "the specific Azure service name",
+      "description": "2-3 sentences: what problem this solves for this topic, how to configure it, and a concrete scale number",
+      "snippet": "a short config snippet, CLI command, or pseudocode (max 8 lines) showing how to set it up"
+    },
+    {
+      "platform": "AWS",
+      "emoji": "🟠",
+      "service": "the specific AWS service name",
+      "description": "2-3 sentences: same format",
+      "snippet": "short snippet"
+    },
+    {
+      "platform": "Databricks",
+      "emoji": "🔶",
+      "service": "the specific Databricks/Spark feature or API",
+      "description": "2-3 sentences: same format",
+      "snippet": "short PySpark or Delta Lake snippet"
+    }
+  ]
+}
+
+Be specific — name the exact service (e.g. Azure Cache for Redis, not just 'Azure caching'). Valid JSON only.`
+    );
+    document.getElementById("cloud-content").innerHTML = renderCloudHTML(data.examples || []);
+  } catch(e) {
+    document.getElementById("cloud-content").innerHTML = errorHTML(e.message, `fetchCloudExamples('${topicName.replace(/'/g,"\\'")}') `);
+  }
+}
+
+function renderCloudHTML(examples) {
+  if (!examples.length) return `<p style="color:#aaa;font-size:13px;text-align:center;padding:20px">No examples available.</p>`;
+  return examples.map(ex => `
+    <div class="cloud-card">
+      <div class="cloud-header">
+        <span class="cloud-logo">${esc(ex.emoji)}</span>
+        <span class="cloud-name">${esc(ex.platform)}</span>
+        <span class="cloud-service">${esc(ex.service)}</span>
+      </div>
+      <div class="cloud-body">${esc(ex.description)}</div>
+      ${ex.snippet ? `<div class="cloud-snippet">${esc(ex.snippet)}</div>` : ""}
+    </div>
+  `).join("");
+}
+
+// Ask Groq
+function autoResize(el) {
+  el.style.height = "auto";
+  el.style.height = Math.min(el.scrollHeight, 120) + "px";
+}
+
+async function sendAsk() {
+  const input = document.getElementById("ask-input");
+  const q = input.value.trim();
+  if (!q) return;
+
+  input.value = "";
+  input.style.height = "auto";
+
+  const t = CUR[state.idx];
+  const topicContext = `We are discussing the system design topic: "${t[0]}". The lesson TL;DR is: "${state.lesson?.tldr || ''}". Answer the student's question concisely and practically — 3-5 sentences max, plain English, with a concrete example if relevant.`;
+
+  // Build message history for context
+  if (state.askHistory.length === 0) {
+    state.askHistory.push({ role: "user", content: topicContext + "\n\nStudent question: " + q });
+  } else {
+    state.askHistory.push({ role: "user", content: q });
+  }
+
+  // Render user bubble
+  const thread = document.getElementById("ask-thread");
+  thread.innerHTML += `<div class="ask-msg-user">${esc(q)}</div>`;
+  thread.innerHTML += `<div class="ask-msg-thinking" id="ask-thinking"><span class="spinner-sm"></span> Thinking…</div>`;
+  thread.scrollIntoView({ behavior: "smooth", block: "end" });
+
+  const btn = document.getElementById("ask-send-btn");
+  btn.disabled = true;
+
+  try {
+    const reply = await callAIText(state.askHistory);
+    state.askHistory.push({ role: "assistant", content: reply });
+    document.getElementById("ask-thinking")?.remove();
+    thread.innerHTML += `<div class="ask-msg-ai">${esc(reply)}</div>`;
+  } catch(e) {
+    document.getElementById("ask-thinking")?.remove();
+    thread.innerHTML += `<div class="ask-msg-ai" style="color:#dc2626">Error: ${esc(e.message)}</div>`;
+  } finally {
+    btn.disabled = false;
+    thread.lastElementChild?.scrollIntoView({ behavior: "smooth", block: "end" });
+  }
+}
+
+// Allow Enter to send (Shift+Enter for newline)
+document.addEventListener("keydown", function(e) {
+  if (e.target.id === "ask-input" && e.key === "Enter" && !e.shiftKey) {
+    e.preventDefault();
+    sendAsk();
+  }
+});
 
 // Viva
 function startViva() {
   showView("viva");
   document.getElementById("viva-question").textContent = state.question;
+  const isDone = state.done.includes(state.idx);
+  const pill = document.getElementById("viva-done-pill");
+  pill.style.display = isDone ? "inline-flex" : "none";
   renderVivaInput();
 }
 
@@ -449,7 +711,7 @@ Return ONLY this JSON (no markdown, no backticks):
   "passed": true or false,
   "score": "Excellent" or "Great" or "Good" or "Partially Correct" or "Needs Work",
   "feedback": "2-3 sentences: be specific. Name what they got right and exactly where their understanding broke down. If they passed, add one senior-engineer insight they can build on.",
-  "correct_answer": "2 sentences: the mental model they were missing, framed as 'The key insight is...' — ONLY include if passed is false"
+  "correct_answer": "2 sentences: the mental model they were missing, framed as The key insight is... — ONLY include if passed is false"
 }
 
 Pass threshold: student demonstrates they understand the WHY behind the concept, not just the definition. Imperfect wording is fine — look for the core mental model.`
@@ -472,25 +734,32 @@ Pass threshold: student demonstrates they understand the WHY behind the concept,
 
     if (data.passed) {
       html += `<button class="btn btn-success" onclick="nextTopic()">${isLast ? "🏆 Complete the curriculum!" : "Next topic →"}</button>`;
+      html += `<button class="btn btn-outline" onclick="goLesson()" style="margin-top:6px">← Back to lesson</button>`;
     } else {
       html += `<button class="btn btn-danger" onclick="retryViva()">↩ Try again</button>`;
+      html += `<button class="btn btn-outline" onclick="goLesson()" style="margin-top:6px">← Review lesson first</button>`;
     }
 
     document.getElementById("viva-content").innerHTML = html;
+
+    // update done pill on lesson if now passed
+    const dp = document.getElementById("lesson-done-pill");
+    if (dp) dp.style.display = state.done.includes(state.idx) ? "inline-flex" : "none";
+
   } catch(e) {
     document.getElementById("viva-content").innerHTML = errorHTML(e.message, "submitAnswer()");
   }
 }
 
-function retryViva() {
-  renderVivaInput();
-}
+function retryViva() { renderVivaInput(); }
 
 function nextTopic() {
-  const ni = Math.min(state.idx + 1, CUR.length);
-  state.idx = ni;
+  // find next undone
+  let ni = state.idx + 1;
+  while (ni < CUR.length && state.done.includes(ni)) ni++;
+  if (ni >= CUR.length) ni = state.idx + 1; // fallback to sequential
+  state.idx = Math.min(ni, CUR.length - 1);
   saveState();
-  state.lesson = null; state.question = "";
   goHome();
 }
 
@@ -510,7 +779,7 @@ function esc(s) {
   return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
 }
 
-// Fetch diagram as a SEPARATE call so it never breaks lesson JSON
+// Diagram — separate call so it never breaks lesson JSON
 async function fetchDiagram(topicName) {
   const container = document.getElementById("diagram-container");
   if (!container) return;
@@ -537,8 +806,7 @@ Return ONLY the raw Mermaid code. No explanation, no backticks, no markdown.`
     });
     const data = await resp.json();
     let raw = data.choices?.[0]?.message?.content || "";
-    // Strip any backtick fences if model added them
-    raw = raw.replace(/\`\`\`(?:mermaid)?/gi, "").replace(/\`\`\`/g, "").trim();
+    raw = raw.replace(/```(?:mermaid)?/gi, "").replace(/```/g, "").trim();
     if (!raw.startsWith("graph")) {
       container.innerHTML = `<div style="text-align:center;padding:16px;color:#aaa;font-size:13px">Diagram unavailable</div>`;
       return;
