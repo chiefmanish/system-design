@@ -437,23 +437,32 @@ function extractJSON(text) {
 
 async function callAI(prompt, maxTokens = 2000) {
   return enqueue(async () => {
-    const resp = await fetch("/api/chat", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ messages: [{ role:"user", content:prompt }], max_tokens: maxTokens }),
-    });
-    const raw = await resp.text();
-    if (resp.status === 429) {
-      showRateBanner(true);
-      setTimeout(() => showRateBanner(false), 10000);
-      throw new Error("Rate limited — please wait a moment and try again");
+    let raw = "";
+    try {
+      const resp = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ messages: [{ role:"user", content:prompt }], max_tokens: maxTokens }),
+      });
+      raw = await resp.text();
+      if (resp.status === 429) {
+        showRateBanner(true);
+        setTimeout(() => showRateBanner(false), 10000);
+        throw new Error("Rate limited — please wait a moment and try again");
+      }
+      if (!resp.ok) throw new Error(`HTTP ${resp.status}: ${raw.slice(0,300)}`);
+      const data = JSON.parse(raw);
+      if (data.error) throw new Error(data.error.message || JSON.stringify(data.error));
+      const text = data.choices?.[0]?.message?.content || "";
+      if (!text) throw new Error(`Empty AI response. Raw: ${raw.slice(0,200)}`);
+      return extractJSON(text);
+    } catch(e) {
+      // Re-throw with raw response appended so errorHTML shows what actually came back
+      if (raw && !e.message.includes(raw.slice(0,20))) {
+        throw new Error(e.message + " | raw: " + raw.slice(0,300));
+      }
+      throw e;
     }
-    if (!resp.ok) throw new Error(`HTTP ${resp.status}: ${raw.slice(0,200)}`);
-    const data = JSON.parse(raw);
-    if (data.error) throw new Error(data.error.message || JSON.stringify(data.error));
-    const text = data.choices?.[0]?.message?.content || "";
-    if (!text) throw new Error("Empty response from AI");
-    return extractJSON(text);
   });
 }
 
@@ -561,37 +570,31 @@ async function startLesson(idx) {
     const data = await callAI(
       `Teach me: "${t[0]}" (level: ${t[1]})${priorStr}
 
-You are teaching this as part of a series. Where relevant, connect this topic to what the student already knows from prior topics listed above.
+Connect this to prior topics where relevant. For each section show how Azure/AWS/Databricks implement it differently.
+ALL values must be 1-2 sentences max. Compact JSON only — no extra text.
 
-For each section, include inline how Azure, AWS, and Databricks implement this concept specifically — comparing the services, naming exact service names, and highlighting key differences between platforms. Use a microservices lens where applicable.
-
-CRITICAL: Keep ALL values SHORT. Max 2 sentences per field. Total under 2000 tokens.
-
-Return ONLY this JSON (no markdown, no backticks, no preamble):
+Return ONLY valid JSON:
 {
-  "tldr": "one sentence — the core trade-off or problem this solves",
-  "prior_connection": "one sentence connecting this to a previously learned topic — omit if idx is 0 or no prior topics",
+  "tldr": "one sentence",
+  "prior_connection": "one sentence connecting to a prior topic, or null",
   "sections": [
     {
-      "heading": "short title",
-      "content": "2 sentences — analogy then technical reality",
-      "example": "1 sentence — specific company + what they use this for",
-      "cloud": {
-        "azure": "Azure service name + 1 sentence on how it implements this concept",
-        "aws": "AWS service name + 1 sentence on how it implements this concept",
-        "databricks": "Databricks/Spark feature + 1 sentence",
-        "difference": "1 sentence on the KEY difference between Azure and AWS for this concept"
-      }
+      "heading": "title",
+      "content": "2 sentences",
+      "example": "company + use case",
+      "azure": "Azure service + 1 sentence",
+      "aws": "AWS service + 1 sentence",
+      "databricks": "Databricks feature + 1 sentence",
+      "cloud_diff": "key Azure vs AWS difference — 1 sentence"
     }
   ],
   "platform_comparison": [
-    { "aspect": "short aspect name", "azure": "1-2 words", "aws": "1-2 words", "databricks": "1-2 words" }
+    { "aspect": "name", "azure": "2-3 words", "aws": "2-3 words", "databricks": "2-3 words" }
   ],
   "key_insight": "use when X. avoid when Y.",
-  "viva_question": "open-ended applied interview question — 1 sentence"
+  "viva_question": "applied interview question"
 }
-
-Rules: exactly 3 sections, exactly 3 rows in platform_comparison. No extra keys. Valid JSON only.`, 2200);
+Exactly 3 sections, 3 comparison rows. No extra keys. No markdown.`, 2200);
 
     state.lesson = data;
     state.question = data.viva_question || "Explain this concept and give a real-world example.";
@@ -624,14 +627,14 @@ function renderLessonHTML(d) {
       <div class="sec-body">${esc(s.content)}</div>
       ${s.example ? `<div class="eg-box">💡 ${esc(s.example)}</div>` : ""}`;
 
-    // Inline cloud block
-    if (s.cloud) {
+    // Inline cloud block — fields now flat on section object
+    if (s.azure || s.aws || s.databricks) {
       html += `<div class="cloud-inline">
         <div class="cloud-inline-title">☁️ How platforms implement this</div>
-        <div class="cloud-row"><span class="cloud-badge cloud-azure">Azure</span><span class="cloud-row-text">${esc(s.cloud.azure || "—")}</span></div>
-        <div class="cloud-row"><span class="cloud-badge cloud-aws">AWS</span><span class="cloud-row-text">${esc(s.cloud.aws || "—")}</span></div>
-        <div class="cloud-row"><span class="cloud-badge cloud-db">Databricks</span><span class="cloud-row-text">${esc(s.cloud.databricks || "—")}</span></div>
-        ${s.cloud.difference ? `<div style="margin-top:7px;font-size:11px;color:#6b7280;font-style:italic">⚡ ${esc(s.cloud.difference)}</div>` : ""}
+        ${s.azure ? `<div class="cloud-row"><span class="cloud-badge cloud-azure">Azure</span><span class="cloud-row-text">${esc(s.azure)}</span></div>` : ""}
+        ${s.aws ? `<div class="cloud-row"><span class="cloud-badge cloud-aws">AWS</span><span class="cloud-row-text">${esc(s.aws)}</span></div>` : ""}
+        ${s.databricks ? `<div class="cloud-row"><span class="cloud-badge cloud-db">Databricks</span><span class="cloud-row-text">${esc(s.databricks)}</span></div>` : ""}
+        ${s.cloud_diff ? `<div style="margin-top:7px;font-size:11px;color:#6b7280;font-style:italic">⚡ ${esc(s.cloud_diff)}</div>` : ""}
       </div>`;
     }
     html += `</div>`;
