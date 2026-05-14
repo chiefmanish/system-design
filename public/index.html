@@ -54,8 +54,9 @@
     .sec:last-of-type { border-bottom: none; padding-bottom: 0; margin-bottom: 0; }
     .sec-num { color: #ddd; font-size: 11px; margin-right: 6px; }
     .sec-heading { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
-    .sec-body { font-size: 14px; line-height: 1.7; color: #555; }
-    .eg-box { background: #f7f7f6; border-left: 3px solid #ddd; border-radius: 0 8px 8px 0; padding: 9px 12px; margin-top: 8px; font-size: 13px; color: #777; line-height: 1.6; }
+    .sec-body { font-size: 14px; line-height: 1.8; color: #444; }
+    .eg-box { background: #f7f7f6; border-left: 3px solid #ddd; border-radius: 0 8px 8px 0; padding: 10px 13px; margin-top: 10px; font-size: 13px; color: #555; line-height: 1.7; }
+    .eg-label { font-size: 10px; font-weight: 700; color: #bbb; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 4px; }
     /* Inline cloud block — woven into each section */
     .cloud-inline { background: #f0f7ff; border-radius: 10px; padding: 11px 13px; margin-top: 10px; border: 1px solid #bfdbfe; }
     .cloud-inline-title { font-size: 10px; font-weight: 700; color: #3b82f6; letter-spacing: .06em; text-transform: uppercase; margin-bottom: 8px; }
@@ -439,11 +440,17 @@ async function callAI(prompt, maxTokens = 2000) {
   return enqueue(async () => {
     let raw = "";
     try {
-      const resp = await fetch("/api/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ messages: [{ role:"user", content:prompt }], max_tokens: maxTokens }),
-      });
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), 25000); // 25s timeout
+      let resp;
+      try {
+        resp = await fetch("/api/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ messages: [{ role:"user", content:prompt }], max_tokens: maxTokens }),
+          signal: controller.signal,
+        });
+      } finally { clearTimeout(timer); }
       raw = await resp.text();
       if (resp.status === 429) {
         showRateBanner(true);
@@ -568,33 +575,34 @@ async function startLesson(idx) {
 
   try {
     const data = await callAI(
-      `Teach me: "${t[0]}" (level: ${t[1]})${priorStr}
+`Teach me: "${t[0]}" (level: ${t[1]}).${priorStr}
 
-Connect this to prior topics where relevant. For each section show how Azure/AWS/Databricks implement it differently.
-ALL values must be 1-2 sentences max. Compact JSON only — no extra text.
+Write like a senior engineer explaining to a junior — plain English, real examples, no fluff.
+For cloud fields: name the exact service, describe a REAL microservices flow (e.g. "Service A calls Service B via..."), not just "Azure has X".
 
-Return ONLY valid JSON:
+Return ONLY this JSON (no markdown, no backticks):
 {
-  "tldr": "one sentence",
-  "prior_connection": "one sentence connecting to a prior topic, or null",
+  "tldr": "one punchy sentence — the core problem this solves",
+  "prior_connection": "one sentence building on a prior topic the student learned, or null",
   "sections": [
     {
-      "heading": "title",
-      "content": "2 sentences",
-      "example": "company + use case",
-      "azure": "Azure service + 1 sentence",
-      "aws": "AWS service + 1 sentence",
-      "databricks": "Databricks feature + 1 sentence",
-      "cloud_diff": "key Azure vs AWS difference — 1 sentence"
+      "heading": "section title",
+      "content": "3-4 sentences in plain English. Start with a real-world analogy. Explain the concept, why it matters, and a concrete scale number (e.g. handles X req/sec).",
+      "example": "Real company example: what problem they had, what they built, what happened as a result.",
+      "azure": "Azure [exact service]: describe a real microservices flow — e.g. Service A → Azure Service Bus → Service B. Why Azure engineers choose this over alternatives.",
+      "aws": "AWS [exact service]: same real flow format. What makes it different from the Azure approach.",
+      "databricks": "Databricks/Delta/Spark [exact feature]: how a data pipeline or ML workflow uses this — show the actual flow.",
+      "cloud_diff": "The key architectural difference between Azure and AWS here — when you would pick one over the other."
     }
   ],
   "platform_comparison": [
-    { "aspect": "name", "azure": "2-3 words", "aws": "2-3 words", "databricks": "2-3 words" }
+    { "aspect": "short aspect", "azure": "3-5 words", "aws": "3-5 words", "databricks": "3-5 words" }
   ],
-  "key_insight": "use when X. avoid when Y.",
-  "viva_question": "applied interview question"
+  "key_insight": "The one thing a senior engineer knows that a junior misses. Format: Use X when Y. Avoid X when Z.",
+  "viva_question": "A scenario-based interview question: You are building X and notice Y — how do you approach Z?"
 }
-Exactly 3 sections, 3 comparison rows. No extra keys. No markdown.`, 2200);
+
+Rules: exactly 3 sections, exactly 3 platform_comparison rows. No extra keys. Valid JSON only.`, 2500);
 
     state.lesson = data;
     state.question = data.viva_question || "Explain this concept and give a real-world example.";
@@ -625,7 +633,7 @@ function renderLessonHTML(d) {
     html += `<div class="sec">
       <div class="sec-heading"><span class="sec-num">${String(i+1).padStart(2,"0")}</span>${esc(s.heading)}</div>
       <div class="sec-body">${esc(s.content)}</div>
-      ${s.example ? `<div class="eg-box">💡 ${esc(s.example)}</div>` : ""}`;
+      ${s.example ? `<div class="eg-box"><div class="eg-label">Real-world example</div>${esc(s.example)}</div>` : ""}`;
 
     // Inline cloud block — fields now flat on section object
     if (s.azure || s.aws || s.databricks) {
@@ -634,7 +642,7 @@ function renderLessonHTML(d) {
         ${s.azure ? `<div class="cloud-row"><span class="cloud-badge cloud-azure">Azure</span><span class="cloud-row-text">${esc(s.azure)}</span></div>` : ""}
         ${s.aws ? `<div class="cloud-row"><span class="cloud-badge cloud-aws">AWS</span><span class="cloud-row-text">${esc(s.aws)}</span></div>` : ""}
         ${s.databricks ? `<div class="cloud-row"><span class="cloud-badge cloud-db">Databricks</span><span class="cloud-row-text">${esc(s.databricks)}</span></div>` : ""}
-        ${s.cloud_diff ? `<div style="margin-top:7px;font-size:11px;color:#6b7280;font-style:italic">⚡ ${esc(s.cloud_diff)}</div>` : ""}
+        ${s.cloud_diff ? `<div style="margin-top:8px;padding-top:8px;border-top:1px solid #bfdbfe;font-size:12px;color:#374151"><strong>⚡ Azure vs AWS:</strong> ${esc(s.cloud_diff)}</div>` : ""}
       </div>`;
     }
     html += `</div>`;
